@@ -27,3 +27,4 @@ It is strongly suggested to use tha last Julia version:
 
 Go to [the documentation page](https://cvdlab.github.io/LinearAlgebraicRepresentation.jl/)
 
+# LAR-SPLITTING-2D-5.b-
