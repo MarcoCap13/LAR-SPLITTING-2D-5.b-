@@ -29,6 +29,8 @@ Riassumendo, in questa sezione affronteremo lo studio preliminare delle funzioni
 
 ## Analisi input e output delle funzioni della classe **Refactoring**:
 
+![alt text](https://github.com/MarcoCap13/LAR-SPLITTING-2D-5.b-/blob/main/docs/plots/GraficoFunzionaleRefactor.png?raw=true)
+
 * **CrossingTest:** è una funzione di supporto per la funzione primaria _pointInPolygonClassification_. Aggiorna il count a seconda dello stato identificato come ‘new’ oppure ‘old’, incrementiamo nello specifico di 0.5
 
 * **setTile:** è una funzione che imposta il _tileCode_ della bounding box 2D [b1, b2, b3, b4] includendo i "point" delle coordinate 2D x, y. A seconda della posizione della variabile ‘point’, tileCode ha un range di 0:15 e usa l’operatore di bit. Successivamente testeremo il codice di TileCode riguardante i bordi di un poligono 2D per determinare se i punti della variabile ‘point’ sono interni, esterni o sono situati sul confine del poligono.
