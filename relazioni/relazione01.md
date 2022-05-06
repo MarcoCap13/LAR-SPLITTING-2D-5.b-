@@ -50,6 +50,8 @@ Riassumendo, in questa sezione affronteremo lo studio preliminare delle funzioni
 
 ## Analisi input e output delle funzioni della classe **Fragface:**
 
+![alt text](https://github.com/MarcoCap13/LAR-SPLITTING-2D-5.b-/blob/main/docs/plots/GraficoFunzionaleFragface.png?raw=true)
+
 * **facemapping:** funzione che calcola la matrice denominata _mapping_ per trasformare la variabile ‘sigma’ e le facce da _sp_idx_[sigma] a z=0. La funzione restituisce una matrice denominata _mapping_.
 * **sigmaModel:** funzione che lavora in parallelo con _facemapping_ con la differenza che restituisce una serie di valori mappati lungo il piano z=0.
 * **sigma_interect:** è una funzione che ci permette di intersecare il piano sigma z= 0 con i bordi usando la trasformata denominata ‘_bigpi_’. Questa funzione restituisce la lunghezza della variabile _sigma_lines_ e l’intersezione delle linee memorizzate nella variabile _linestore_.
