@@ -4,6 +4,8 @@ _Studenti: Caponi Marco, Ceneda Gianluca_
 
 Prime analisi, test e possibili ottimizzazioni sul progetto LAR SPLITTING 2D con l’utilizzo della seguente repository:
 
+* Main repository: https://github.com/MarcoCap13/LAR-SPLITTING-2D-5.b-
+
 * https://github.com/cvdlab/LinearAlgebraicRepresentation.jl/blob/master/src/refactoring.jl
 
 * https://github.com/cvdlab/Lar.jl/blob/master/src/fragface.jl 
