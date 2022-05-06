@@ -43,7 +43,7 @@ Riassumendo, in questa sezione affronteremo lo studio preliminare delle funzioni
 * **Intersection:** funzione che interseca due segmenti nel piano 2D, calcolando i due parametri di linea del punto di intersezione.
 * **Linefragment:** Calcola le sequenze dei parametri ordinati frammentando l’input. Inoltre, i parametri di bordo (0 e 1) sono inclusi nel valore di ritorno dell’output. Il parametro ‘Sigma’ identifica un indice che fornisce un sottoinsieme di linee il cui contenuto interseca il ‘box’ di ciascuna linea di input (identificata dal parametro “_EV_”)
 * **Fragmentlines:** prende in input il modello e anche grazie a spaceindex calcola e restituisce vertici e spigoli di quest’ultimo.
-* **FragLines:** Chiedi al professore riga 485 
+* **FragLines:** funzione che prende in input degli interi e restituisce una funzione denominata fraglines0 composta da un insieme di vettori
 
 * **Congruence:** funzione che prende in ingresso un modello di Lar, restituendo una funzione di base denominata _hcat_ che concatena due array lungo due dimensioni.
 
