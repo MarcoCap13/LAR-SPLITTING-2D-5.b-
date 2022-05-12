@@ -75,6 +75,32 @@ Nello specifico abbiamo modificato le funzioni principali della classe **Refacto
 
 ![Lavoro di pointInPolygonClassification](https://github.com/MarcoCap13/LAR-SPLITTING-2D-5.b-/blob/main/docs/plots/images/Schema_pointInPolygon.png?raw=true)
 
+#### Funzioni secondarie utilizzate dalle funzioni principali: pointInPolygon, spaceindex, boxcovering:
+
+* hcat: concatena due array lungo due dimensioni
+
+* minimum : restituisce il risultato più piccolo della funzione che viene chiamata su ogni elemento dell'array passato come parametro.
+
+* maximum : restituisce il risultato più grande di una funzione che viene chiamata su ogni elemento dell'array passato come parametro.
+
+* min: restituisce il minimo degli argomenti.
+
+* max: restituisce il massimo degli argomenti.
+
+* intersect: restituisce l’intersezione di due insiemi.
+
+* enumerate : un iteratore che produce (i, x) dove i è un contatore a partire da 1, e x è il valore i-esimo della collezione su cui scorre l'iteratore dato.
+
+* haskey : determina se una collezione ha una mappatura per una determinata chiave.
+
+* Mapslices: trasforma le dimensioni date dell'array in input usando una funzione scelta dall’utente. La funzione è chiamata su tutte le dimensioni ( slices ) dell’array.
+
+
+
+
+
+
+
  ## Funzioni aggiuntive create
  
  In questa sezione verranno illustrate tutte le funzioni secondarie da noi utilizzate create per migliorare, alleggerire e semplificare gran parte del codice.
