@@ -60,17 +60,17 @@ Riassumendo, in questa sezione affronteremo lo studio preliminare delle funzioni
 
 # RELAZIONE DEL PROGETTO
 
-In questa sezione si illustreranno passo passo tutti i vari cambiamenti che sono stati fatti per poter ottimizzare e migliorare il codice e la sua velocità computazionale.
+In questa sezione si illustreranno passo passo tutti i vari cambiamenti che sono stati fatti per poter ottimizzare, migliorare il codice e la sua velocità computazionale.
 Nello specifico abbiamo modificato le funzioni principali della classe **Refactoring** e della classe **Fragface**.
 
-* spaceIndex: attraverso lo strumento **@code_warntype**, è emersa un'instabilità di alcune variabili e non dell'intero metodo. Nel particolare sono _type unstable_ bboxes, xboxdict, yboxdict, zboxdict, xcovers, ycovers, zcovers ed infine covers.
+* spaceIndex: attraverso lo strumento **@code_warntype**, è emersa un'instabilità in alcune variabili e non dell'intero metodo. Nel particolare sono _type unstable_: bboxes, xboxdict, yboxdict, zboxdict, xcovers, ycovers, zcovers ed infine covers.
  Affinando il codice (in altre parole cercando di eliminare i vari if/else che equivalgono ad una cattiva ottimizzazione del codice) e creando un funzione di supporto denominata **removeIntersection** siamo riusciti a rendere più stabile il tutto diminuendo in linea generale i tempi di calcolo della funzione stessa.
  
  * boundingBox: sempre attraverso l'utilizzo della funzione denominata **@code_warntype**, è risultata un'instabilità in questo metodo. L'instabilità è dovuta unicamente alla funzione _mapslices_.
- Per ovviare a tale problematica abbiamo richiamato la funzione hcat che concatena due array lungo due dimensioni rendendo boundingbox _type stable_ aumentando notevolmente le prestazioni. (per verificarlo abbiamo richiamato @benchmark)
+ Per ovviare a tale problematica abbiamo richiamato la funzione _hcat_ che concatena due array lungo due dimensioni rendendo boundingbox _type stable_ aumentando notevolmente le prestazioni. (per verificarlo abbiamo richiamato **@benchmark** e comparato i risultati)
 
- * pointInPolygonClassification: In questo caso abbiamo scomposto i vari elif in tante _mono-task_ per poter alleggerire il codice di quest'ultima.
- Nella figura sottostante vedremo come funziona pointInPolygon, denotando tutti quei segmenti che intersecano il poligono preso in esame. Nello specifico nel punto (a) vediamo i singoli segmenti (o linee) che intersecano il poligono e nel punto (b) vengono illustrati tutti quei punti che sono situati esternamente, internamente o sul bordo del poligono.
+ * pointInPolygonClassification:Funzione di notevole importanza nel nostro progetto. In questo caso abbiamo scomposto i vari elif in tante _mono-task_ per poter alleggerire il codice di quest'ultima.
+ Nella figura sottostante vedremo come lavora pointInPolygon, denotando tutti quei segmenti che intersecano le facce del poligono preso in esame. Nello specifico nel punto (a) vediamo i singoli segmenti (o linee) che intersecano quest'ultime e nel punto (b) vengono illustrati tutti quei punti che sono situati esternamente, internamente o sul bordo della faccia del poligono.
 
 
 ![Lavoro di pointInPolygonClassification](https://github.com/MarcoCap13/LAR-SPLITTING-2D-5.b-/blob/main/docs/plots/images/Schema_pointInPolygon.png?raw=true)
