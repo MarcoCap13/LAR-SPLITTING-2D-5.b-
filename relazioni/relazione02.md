@@ -58,7 +58,7 @@ Riassumendo, in questa sezione affronteremo lo studio preliminare delle funzioni
 * **Computeparams:** funzione che prende in ingresso _linestore_ e _linenum_ precedentemente calcolate dalla funzione _sigma_intersect_ e restituisce un array con tutte le coppie intersecate.
 * **Fragface:** funzione che prende in ingresso dei parametri che permettono di modificare le matrici calcolate dalle precedenti funzioni restituendo variabili inerenti alla funzione LAR.
 
-# RELAZIONE DI PROGETTO
+# RELAZIONE DEL PROGETTO
 
 In questa sezione si illustreranno passo passo tutti i vari cambiamenti che sono stati fatti per poter ottimizzare e migliorare il codice e la sua velocità computazionale.
 Nello specifico abbiamo modificato le funzioni principali della classe **Refactoring** e della classe **Fragface**.
@@ -69,7 +69,11 @@ Nello specifico abbiamo modificato le funzioni principali della classe **Refacto
  * boundingBox: sempre attraverso l'utilizzo della funzione denominata **@code_warntype**, è risultata un'instabilità in questo metodo. L'instabilità è dovuta unicamente alla funzione _mapslices_.
  Per ovviare a tale problematica abbiamo richiamato la funzione hcat che concatena due array lungo due dimensioni rendendo boundingbox _type stable_ aumentando notevolmente le prestazioni. (per verificarlo abbiamo richiamato @benchmark)
 
- * pointInPolygonClassification: funzione che serve a denotare se i punti del poligono sono interni, esterni o di frontiera. In questo caso abbiamo scomposto i vari elif in tante _mono-task_ per poter alleggerire il codice di quest'ultima.
+ * pointInPolygonClassification: In questo caso abbiamo scomposto i vari elif in tante _mono-task_ per poter alleggerire il codice di quest'ultima.
+ Nella figura sottostante vedremo come funziona pointInPolygon, denotando tutti quei segmenti che intersecano il poligono preso in esame. Nello specifico nel punto (a) vediamo i singoli segmenti (o linee) che intersecano il poligono e nel punto (b) vengono illustrati tutti quei punti che sono situati esternamente, internamente o sul bordo del poligono.
+
+
+![Lavoro di pointInPolygonClassification](https://github.com/MarcoCap13/LAR-SPLITTING-2D-5.b-/blob/main/docs/plots/images/Schema_pointInPolygon.png?raw=true)
 
  ## Funzioni aggiuntive create
  
