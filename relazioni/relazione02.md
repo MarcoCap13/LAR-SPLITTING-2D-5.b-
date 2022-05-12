@@ -69,7 +69,7 @@ Nello specifico abbiamo modificato le funzioni principali della classe **Refacto
  * boundingBox: sempre attraverso l'utilizzo della funzione denominata **@code_warntype**, è risultata un'instabilità in questo metodo. L'instabilità è dovuta unicamente alla funzione _mapslices_.
  Per ovviare a tale problematica abbiamo richiamato la funzione _hcat_ che concatena due array lungo due dimensioni rendendo boundingbox _type stable_ aumentando notevolmente le prestazioni. (per verificarlo abbiamo richiamato **@benchmark** e comparato i risultati)
 
- * pointInPolygonClassification:Funzione di notevole importanza nel nostro progetto. In questo caso abbiamo scomposto i vari elif in tante _mono-task_ per poter alleggerire il codice di quest'ultima.
+ * pointInPolygonClassification: funzione di notevole importanza nel nostro progetto. In questo caso abbiamo scomposto i vari elif in tante _mono-task_ per poter alleggerire il codice di quest'ultima.
  Nella figura sottostante vedremo come lavora pointInPolygon, denotando tutti quei segmenti che intersecano le facce del poligono preso in esame. Nello specifico nel punto (a) vediamo i singoli segmenti (o linee) che intersecano quest'ultime e nel punto (b) vengono illustrati tutti quei punti che sono situati esternamente, internamente o sul bordo della faccia del poligono.
 
 
