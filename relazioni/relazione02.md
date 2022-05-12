@@ -95,12 +95,6 @@ Nello specifico abbiamo modificato le funzioni principali della classe **Refacto
 
 * Mapslices: trasforma le dimensioni date dell'array in input usando una funzione scelta dall’utente. La funzione è chiamata su tutte le dimensioni ( slices ) dell’array.
 
-
-
-
-
-
-
  ## Funzioni aggiuntive create
  
  In questa sezione verranno illustrate tutte le funzioni secondarie da noi utilizzate create per migliorare, alleggerire e semplificare gran parte del codice.
@@ -110,3 +104,9 @@ Nello specifico abbiamo modificato le funzioni principali della classe **Refacto
  * **createIntervalTree**(boxdict::AbstractDict{Array{Float64,1},Array{Int64,1}}) dato un insieme ordinato, crea un intervalTree; Nel particolare parliamo di una struttura dati che contiene intervalli e che ci consente di cercare e trovare in maniera efficiente tutti gli intervalli che si sovrappongono ad un determinato intervallo o punto.
 
  * **removeIntersection**(covers::Array{Array{Int64,1},1})elimina le intersezioni di ogni boundingbox con loro stessi.
+
+ ![Grafo delle dipendenze della classe Refactoring (Aggiornato)](https://github.com/MarcoCap13/LAR-SPLITTING-2D-5.b-/blob/main/docs/plots/images/FunctionGraph_V2.png?raw=true)
+
+
+In sintesi, questo **grafo** rappresenta il lavoro svolto sino ad ora con tutte le nuove funzioni create, aggiornate ed aggiunte.
+I nodi color celeste sono le funzioni di supporto, i nodi colorati di rosso sono le funzioni principali della classe e gli ultimi colorati di blu sono funzioni secondarie equamente importanti alla fine del progetto stesso.
