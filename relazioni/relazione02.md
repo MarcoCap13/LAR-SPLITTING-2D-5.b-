@@ -27,7 +27,7 @@ Nello specifico, ci occupiamo della generazione di una proiezione 2D del piano e
   
 Riassumendo, in questa sezione affronteremo lo studio preliminare delle funzioni principali della classe _refactoring_ e _fragface_:
 
-## Analisi input e output delle funzioni della classe **Refactoring**:
+## Analisi preliminare input e output delle funzioni della classe **Refactoring**:
 
 ![Grafo delle dipendenze della classe Refactoring](https://github.com/MarcoCap13/LAR-SPLITTING-2D-5.b-/blob/main/docs/plots/grafoRefactoring.png?raw=true)
 
@@ -58,3 +58,22 @@ Riassumendo, in questa sezione affronteremo lo studio preliminare delle funzioni
 * **Computeparams:** funzione che prende in ingresso _linestore_ e _linenum_ precedentemente calcolate dalla funzione _sigma_intersect_ e restituisce un array con tutte le coppie intersecate.
 * **Fragface:** funzione che prende in ingresso dei parametri che permettono di modificare le matrici calcolate dalle precedenti funzioni restituendo variabili inerenti alla funzione LAR.
 
+# RELAZIONE DI PROGETTO
+
+In questa sezione si illustreranno passo passo tutti i vari cambiamenti che sono stati fatti per poter ottimizzare e migliorare il codice e la sua velocità computazionale.
+Nello specifico abbiamo modificato le funzioni principali della classe **Refactoring** e della classe **Fragface**.
+
+* spaceIndex: attraverso lo strumento **@code_warntype**, è emersa un'instabilità di alcune variabili e non dell'intero metodo. Nel particolare sono _type unstable_ bboxes, xboxdict, yboxdict, zboxdict, xcovers, ycovers, zcovers ed infine covers.
+ Affinando il codice (in altre parole cercando di eliminare i vari if/else che equivalgono ad una cattiva ottimizzazione del codice) e creando un funzione di supporto denominata **removeIntersection** siamo riusciti a rendere più stabile il tutto diminuendo in linea generale i tempi di calcolo della funzione stessa.
+ 
+ * boundingBox: sempre attraverso l'utilizzo della funzione denominata **@code_warntype**, è risultata un'instabilità in questo metodo. L'instabilità è dovuta unicamente alla funzione _mapslices_.
+ Per ovviare a tale problematica abbiamo richiamato la funzione hcat che concatena due array lungo due dimensioni rendendo boundingbox _type stable_ aumentando notevolmente le prestazioni. (per verificarlo abbiamo richiamato @benchmark)
+
+ * pointInPolygonClassification: funzione che serve a denotare se i punti del poligono sono interni, esterni o di frontiera. In questo caso abbiamo scomposto i vari elif in tante _mono-task_ per poter alleggerire il codice di quest'ultima.
+
+ ## Funzioni aggiuntive create
+ * **addIntersection**(covers::Array{Array{Int64,1},1}, i::Int64, iterator) aggiunge gli elementi di iterator nell'i-esimo array di covers.
+
+ * **createIntervalTree**(boxdict::AbstractDict{Array{Float64,1},Array{Int64,1}}) dato un insieme ordinato, crea un intervalTree; Nel particolare parliamo di una struttura dati che contiene intervalli e che ci consente di cercare e trovare in maniera efficiente tutti gli intervalli che si sovrappongono ad un determinato intervallo o punto.
+
+ * **removeIntersection**(covers::Array{Array{Int64,1},1})elimina le intersezioni di ogni boundingbox con loro stessi.
