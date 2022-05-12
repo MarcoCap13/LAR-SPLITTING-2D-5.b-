@@ -73,7 +73,7 @@ Nello specifico abbiamo modificato le funzioni principali della classe **Refacto
 
  ## Funzioni aggiuntive create
  
- In questa sezione verranno illustrate tutte le funzioni secondarie create per migliorare, alleggerire e semplificare gran parte delle funzioni da noi utilizzate.
+ In questa sezione verranno illustrate tutte le funzioni secondarie da noi utilizzate create per migliorare, alleggerire e semplificare gran parte del codice.
 
  * **addIntersection**(covers::Array{Array{Int64,1},1}, i::Int64, iterator) aggiunge gli elementi di iterator nell'i-esimo array di covers.
 
