@@ -72,6 +72,9 @@ Nello specifico abbiamo modificato le funzioni principali della classe **Refacto
  * pointInPolygonClassification: funzione che serve a denotare se i punti del poligono sono interni, esterni o di frontiera. In questo caso abbiamo scomposto i vari elif in tante _mono-task_ per poter alleggerire il codice di quest'ultima.
 
  ## Funzioni aggiuntive create
+ 
+ In questa sezione verranno illustrate tutte le funzioni secondarie create per migliorare, alleggerire e semplificare gran parte delle funzioni da noi utilizzate.
+
  * **addIntersection**(covers::Array{Array{Int64,1},1}, i::Int64, iterator) aggiunge gli elementi di iterator nell'i-esimo array di covers.
 
  * **createIntervalTree**(boxdict::AbstractDict{Array{Float64,1},Array{Int64,1}}) dato un insieme ordinato, crea un intervalTree; Nel particolare parliamo di una struttura dati che contiene intervalli e che ci consente di cercare e trovare in maniera efficiente tutti gli intervalli che si sovrappongono ad un determinato intervallo o punto.
