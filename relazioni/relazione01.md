@@ -29,7 +29,7 @@ Riassumendo, in questa sezione affronteremo lo studio preliminare delle funzioni
 
 ## Analisi input e output delle funzioni della classe **Refactoring**:
 
-![Grafo delle dipendenze della classe Refactoring](https://github.com/MarcoCap13/LAR-SPLITTING-2D-5.b-/blob/main/docs/plots/grafoRefactoring.png?raw=true)
+![Grafo delle dipendenze della classe Refactoring](https://github.com/MarcoCap13/LAR-SPLITTING-2D-5.b-/blob/main/docs/plots/images/grafoRefactoring.png?raw=true)
 
 * **CrossingTest:** è una funzione di supporto per la funzione primaria _pointInPolygonClassification_. Aggiorna il count a seconda dello stato identificato come ‘new’ oppure ‘old’, incrementiamo nello specifico di 0.5
 
@@ -50,7 +50,7 @@ Riassumendo, in questa sezione affronteremo lo studio preliminare delle funzioni
 
 ## Analisi input e output delle funzioni della classe **Fragface:**
 
-![Grafo delle dipendenze della classe Fragface](https://github.com/MarcoCap13/LAR-SPLITTING-2D-5.b-/blob/main/docs/plots/grafoFragface.png?raw=true)
+![Grafo delle dipendenze della classe Fragface](https://github.com/MarcoCap13/LAR-SPLITTING-2D-5.b-/blob/main/docs/plots/images/grafoFragface.png?raw=true)
 
 * **facemapping:** funzione che calcola la matrice denominata _mapping_ per trasformare la variabile ‘sigma’ e le facce da _sp_idx_[sigma] a z=0. La funzione restituisce una matrice denominata _mapping_.
 * **sigmaModel:** funzione che lavora in parallelo con _facemapping_ con la differenza che restituisce una serie di valori mappati lungo il piano z=0.
