@@ -277,3 +277,62 @@ end
 	end
 end
 
+
+
+
+
+
+
+							#test delle nuove funzioni di supporto create 
+
+
+
+							
+@testset "test nuove funzioni" begin
+	
+	@testset "createIntervalTree test" begin
+		dict = OrderedDict([0.0, 1.0] => [1, 3],[1.0, 1.0] => [2],[0.0, 0.0] => [4],[0.0, 2.0] => [5])
+		t = createIntervalTree(dict)
+		@test typeof(t) == IntervalTrees.IntervalBTree{Float64,IntervalValue{Float64,Array},64}
+		@test t.root.entries[1].first == 0.0
+		@test t.root.entries[1].last == 0.0
+		@test t.root.entries[1].value == [4]
+
+		@test t.root.entries[2].first == 0.0
+		@test t.root.entries[2].last == 1.0
+		@test t.root.entries[2].value == [1,3]
+
+		@test t.root.entries[3].first == 0.0
+		@test t.root.entries[3].last == 2.0
+		@test t.root.entries[3].value == [5]
+
+		@test t.root.entries[4].first == 1.0
+		@test t.root.entries[4].last == 1.0
+		@test t.root.entries[4].value == [2]
+	end
+
+	@testset "removeIntersection test" begin
+		covers = [[4, 1, 3, 5, 2], [1, 3, 5, 2], [4, 1, 3, 5, 2], [4, 1, 3, 5], [4, 1, 3, 5, 2]]
+		removeIntersection(covers)
+		@test typeof(covers) == Array{Array{Int64,1},1}
+		@test covers[1] == [4, 3, 5, 2]
+		@test covers[2] == [1, 3, 5]
+		@test covers[3] == [4, 1, 5, 2]
+		@test covers[4] == [1, 3, 5]
+		@test covers[5] == [4, 1, 3, 2]
+
+	end
+	@testset "addIntersection test" begin
+		bb = [[0.0 1.0; 0.0 0.0], [1.0 1.0; 0.0 1.0], [0.0 1.0; 1.0 1.0], [0.0 0.0; 0.0 1.0], [0.0 2.0; 0.0 1.0]];
+		dict = OrderedDict([0.0, 1.0] => [1, 3],[1.0, 1.0] => [2],[0.0, 0.0] => [4],[0.0, 2.0] => [5])
+		t = createIntervalTree(dict)
+		c = boxcovering(bb,1,t)
+		@test c == [[4, 1, 3, 5, 2], [1, 3, 5, 2], [4, 1, 3, 5, 2], [4, 1, 3, 5], [4, 1, 3, 5, 2]];
+	end
+
+end
+
+
+
+
+

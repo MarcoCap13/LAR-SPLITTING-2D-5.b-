@@ -3,8 +3,9 @@ Lar = LinearAlgebraicRepresentation
 using IntervalTrees
 using SparseArrays
 using NearestNeighbors
-
-
+using BenchmarkTools
+using OrderedCollections
+using Base.Threads
 
 #---------------------------------------------------------------------
 #	2D containment test
@@ -220,15 +221,13 @@ function coordintervals(coord,bboxes)
 end
 
 function boxcovering(bboxes, index, tree)
-	covers = [[] for k=1:length(bboxes)]
-	for (i,boundingbox) in enumerate(bboxes)
-		extent = bboxes[i][index,:]
-		iterator = IntervalTrees.intersect(tree, tuple(extent...))
-		for x in iterator
-			append!(covers[i],x.value)
-		end
-	end
-	return covers
+    covers = [[zero(eltype(Int64))] for k=1:length(bboxes)]		#zero(eltype(Int64)) serve per rendere covers type stable
+    @threads for (i,boundingbox) in collect(enumerate(bboxes))
+        extent = bboxes[i][index,:]
+        iterator = IntervalTrees.intersect(tree, tuple(extent...))
+        addIntersection(covers, i, iterator)
+    end
+    return covers
 end
 
 
@@ -278,42 +277,37 @@ Sigma
 ```
 """
 function spaceindex(model::Lar.LAR)::Array{Array{Int,1},1}
-	V,CV = model[1:2]
-	dim = size(V,1)
-	cellpoints = [ V[:,CV[k]]::Lar.Points for k=1:length(CV) ]
-	#----------------------------------------------------------
-	bboxes = [hcat(Lar.boundingbox(cell)...) for cell in cellpoints]
-	xboxdict = Lar.coordintervals(1,bboxes)
-	yboxdict = Lar.coordintervals(2,bboxes)
-	# xs,ys are IntervalTree type
-	xs = IntervalTrees.IntervalMap{Float64, Array}()
-	for (key,boxset) in xboxdict
-		xs[tuple(key...)] = boxset
-	end
-	ys = IntervalTrees.IntervalMap{Float64, Array}()
-	for (key,boxset) in yboxdict
-		ys[tuple(key...)] = boxset
-	end
-	xcovers = Lar.boxcovering(bboxes, 1, xs)
-	ycovers = Lar.boxcovering(bboxes, 2, ys)
-	covers = [intersect(pair...) for pair in zip(xcovers,ycovers)]
+    V,CV = model[1:2]
+    dim = size(V,1)
+    
+    cellpoints = [ V[:,CV[k]]::Lar.Points for k=1:length(CV) ]		    #calcola le celle
+    bboxes = [hcat(boundingbox(cell)...) for cell in cellpoints]    #calcola i boundingbox delle celle
+    
+    xboxdict = coordintervals(1,bboxes)
+    yboxdict = coordintervals(2,bboxes)
 
-	if dim == 3
-		zboxdict = Lar.coordintervals(3,bboxes)
-		zs = IntervalTrees.IntervalMap{Float64, Array}()
-		for (key,boxset) in zboxdict
-			zs[tuple(key...)] = boxset
-		end
-		zcovers = Lar.boxcovering(bboxes, 3, zs)
-		covers = [intersect(pair...) for pair in zip(zcovers,covers)]
-	end
-	# remove each cell from its cover
-	for k=1:length(covers)
+    # xs,ys sono di tipo IntervalTree
+    xs = createIntervalTree(xboxdict)
+    ys = createIntervalTree(yboxdict)
+    
+    xcovers = boxcovering(bboxes, 1, xs)                        #lista delle intersezioni dei bb sulla coordinata x
+    ycovers = boxcovering(bboxes, 2, ys)                        #lista delle intersezioni dei bb sulla coordinata x
+    covers = [intersect(pair...) for pair in zip(xcovers,ycovers)]      #lista delle intersezioni dei bb su entrambe le coordinate
+
+    if dim == 3
+        zboxdict = coordintervals(3,bboxes)
+        zs = createIntervalTree(zboxdict)
+        zcovers = boxcovering(bboxes, 3, zs)
+        covers = [intersect(pair...) for pair in zip(zcovers,covers)]
+    end
+    
+    for k=1:length(covers)
 		covers[k] = setdiff(covers[k],[k])
 	end
 	return covers
+    removeIntersection(covers)       #rimozione delle intersezioni con se stesso
+    return covers
 end
-
 
 
 
@@ -734,3 +728,29 @@ function Output
 end
 
 =#
+
+
+
+
+# FUNZIONI DI SUPPORTO PER spaceindex E boxcovering
+
+function removeIntersection(covers::Array{Array{Int64,1},1})
+    @threads for k=1:length(covers)
+        covers[k] = setdiff(covers[k],[k])	#toglie le intersezioni con se stesso 
+    end
+end
+
+function createIntervalTree(boxdict::AbstractDict{Array{Float64,1},Array{Int64,1}})
+    tree = IntervalTrees.IntervalMap{Float64,Array}()
+    for (key, boxset) in boxdict
+        tree[tuple(key...)] = boxset
+    end
+    return tree
+end
+
+function addIntersection(covers::Array{Array{Int64,1},1}, i::Int64, iterator)
+    splice!(covers[i],1)		#splice serve a togliere gli zeri iniziali all'interno di covers
+    @threads for x in collect(iterator)
+        append!(covers[i],x.value)
+    end
+end
