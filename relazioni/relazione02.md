@@ -67,7 +67,7 @@ Per quanto riguarda la parte precedente del codice, è presente una descrizione 
 
  * **removeIntersection**(covers::Array{Array{Int64,1},1})elimina le intersezioni di ogni boundingbox con loro stessi.
 
- ![Grafo delle dipendenze della classe Refactoring (Aggiornato)](https://github.com/MarcoCap13/LAR-SPLITTING-2D-5.b-/blob/main/docs/plots/images/FunctionGraph_V2.png?raw=true)
+ ![Grafo delle dipendenze della classe Refactoring (Aggiornato)](https://github.com/MarcoCap13/LAR-SPLITTING-2D-5.b-/blob/main/docs/plots/images/grafoRefactoring_V2.png?raw=true)
 
 
 In sintesi, questo **grafo** rappresenta il lavoro svolto sino ad ora con tutte le nuove funzioni create, aggiornate ed aggiunte.
