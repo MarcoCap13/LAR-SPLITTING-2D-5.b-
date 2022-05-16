@@ -38,7 +38,7 @@ assembly = Lar.Struct([ #(V,FV,EV),
 V,EV = Lar.struct2lar(assembly)
 GL.VIEW([ GL.GLGrid(V,EV, GL.COLORS[1],1), GL.GLFrame2 ]);
 
-# boolmatrix = Lar.booleanops2d((V,EV))
+ # boolmatrix = Lar.booleanops2d((V,EV))
 W, copEV, copFE, boolmatrix = Lar.bool2d(assembly)
 @show Matrix(boolmatrix)
 @show Matrix(copFE)
