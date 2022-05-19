@@ -69,7 +69,7 @@ Per quanto riguarda l'ottimizzazione e la parallelizzazione delle funzioni, sono
  Nella figura sottostante vedremo come lavora _pointInPolygon_, denotando tutti quei segmenti che intersecano le facce del poligono preso in esame. Nello specifico nel punto (a) vediamo i singoli segmenti (o linee) che intersecano quest'ultime; Nel punto (b) vengono illustrati tutti quei punti che sono situati esternamente, internamente o sul bordo della faccia del poligono, nel punto (c) vengono cancellati tutti quei segmenti che vanno verso l'esterno della faccia del poligono e per finire vediamo nel punto (d) il risultato finale attraverso il **TGW** in 2D.
     * Tipo: stabile
     * Velocità di calcolo: 
-        * iniziale:   119.404 ns
+        * iniziale:   119.404 μs
         * modificata: 98.212 μs
 
 
