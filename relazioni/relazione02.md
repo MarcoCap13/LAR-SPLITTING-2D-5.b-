@@ -66,7 +66,7 @@ Per quanto riguarda l'ottimizzazione e la parallelizzazione delle funzioni, sono
         * modificata: 3.212 μs
 
  * **pointInPolygonClassification**: funzione di notevole importanza nel nostro progetto. In questo caso abbiamo scomposto i vari else/if in tante _mono-task_ per poter alleggerire il codice di quest'ultima.
- Nella figura sottostante vedremo come lavora _pointInPolygon_, denotando tutti quei segmenti che intersecano le facce del poligono preso in esame. Nello specifico nel punto (a) vediamo i singoli segmenti (o linee) che intersecano quest'ultime; Nel punto (b) vengono illustrati tutti quei punti che sono situati esternamente, internamente o sul bordo della faccia del poligono, nel punto (c) vengono cancellati tutti quei segmenti che vanno verso l'esterno della faccia del poligono e per finire vediamo nel punto (d) vediamo il risultato finale attraverso il **TGW** in 2D.
+ Nella figura sottostante vedremo come lavora _pointInPolygon_, denotando tutti quei segmenti che intersecano le facce del poligono preso in esame. Nello specifico nel punto (a) vediamo i singoli segmenti (o linee) che intersecano quest'ultime; Nel punto (b) vengono illustrati tutti quei punti che sono situati esternamente, internamente o sul bordo della faccia del poligono, nel punto (c) vengono cancellati tutti quei segmenti che vanno verso l'esterno della faccia del poligono e per finire vediamo nel punto (d) il risultato finale attraverso il **TGW** in 2D.
     * Tipo: stabile
     * Velocità di calcolo: 
         * iniziale:   119.404 ns
