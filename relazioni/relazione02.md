@@ -106,9 +106,11 @@ Per quanto riguarda l'ottimizzazione e la parallelizzazione delle funzioni, sono
 
 ## Grafo delle dipendenze aggiornato
 
- ![Grafo delle dipendenze della classe Refactoring (Aggiornato)](https://github.com/MarcoCap13/LAR-SPLITTING-2D-5.b-/blob/main/docs/plots/images/grafoRefactoring_V2.1.png?raw=true)
-
-
 In sintesi, questo **grafo** rappresenta il lavoro svolto sino ad ora con tutte le nuove funzioni create, aggiornate ed aggiunte.
 I nodi color celeste sono le funzioni di supporto, i nodi colorati di rosso sono le funzioni principali della classe e gli ultimi colorati di blu sono funzioni secondarie equamente importanti alla fine del progetto stesso.
 Nello specifico il nodo _Utility_function_PointInPolygon_1-15_  racchiude tutte le 15 funzioni create per il supporto a PointInPolygonclassification.
+
+
+ ![Grafo delle dipendenze della classe Refactoring (Aggiornato)](https://github.com/MarcoCap13/LAR-SPLITTING-2D-5.b-/blob/main/docs/plots/images/grafoRefactoring_V2.1.png?raw=true)
+
+
