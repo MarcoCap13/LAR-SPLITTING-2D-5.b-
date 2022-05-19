@@ -80,10 +80,6 @@ Per quanto riguarda l'ottimizzazione e la parallelizzazione delle funzioni, sono
 
 * hcat: concatena due array lungo due dimensioni
 
-* minimum : restituisce il risultato più piccolo della funzione che viene chiamata su ogni elemento dell'array passato come parametro.
-
-* maximum : restituisce il risultato più grande di una funzione che viene chiamata su ogni elemento dell'array passato come parametro.
-
 * min: restituisce il minimo degli argomenti.
 
 * max: restituisce il massimo degli argomenti.
