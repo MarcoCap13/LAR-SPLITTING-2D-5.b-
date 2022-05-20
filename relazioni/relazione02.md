@@ -22,7 +22,7 @@ Prime analisi, test e possibili ottimizzazioni sul progetto LAR SPLITTING 2D con
 # RELAZIONE DEL PROGETTO
 
 In questa sezione si illustreranno passo passo tutti i vari cambiamenti che sono stati fatti per poter ottimizzare, migliorare il codice e la sua velocità computazionale.
-Nello specifico abbiamo modificato le funzioni principali della classe **Refactoring** e della classe **Fragface**.
+Nello specifico abbiamo modificato le funzioni principali della classe **Refactoring**.
 Per quanto riguarda la parte precedente del codice, è presente una descrizione accurata nella relazione precedente, visitabile all'indirizzo di seguito: https://github.com/MarcoCap13/LAR-SPLITTING-2D-5.b-/blob/main/relazioni/relazione01.md
 
 Attraverso lo studio preliminare dei metodi di parallelizzazione, siamo riusciti a migliorare alcune funzioni presenti nelle classi principali attraverso l'utilizzo di alcune macro studiate sul libro consigliato dal professore.
