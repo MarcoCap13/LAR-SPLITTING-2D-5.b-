@@ -44,14 +44,19 @@ Per quanto riguarda l'ottimizzazione e la parallelizzazione delle funzioni, sono
 
 ## Studio delle funzioni ottimizzate
 
-* **spaceIndex**: attraverso lo strumento _@code_warntype_, è emersa un'instabilità in alcune variabili e non dell'intero metodo. Nel particolare sono _type unstable_: bboxes, xboxdict, yboxdict, zboxdict, xcovers, ycovers, zcovers ed infine covers.
+Per vedere nel dettaglio i dati ed i benchmark che riporterò qui di seguito, riporto il link diretto: 
+    
+* https://github.com/MarcoCap13/LAR-SPLITTING-2D-5.b-/tree/main/docs/benchmark 
+
+
+1) **spaceIndex**: attraverso lo strumento _@code_warntype_, è emersa un'instabilità in alcune variabili e non dell'intero metodo. Nel particolare sono _type unstable_: bboxes, xboxdict, yboxdict, zboxdict, xcovers, ycovers, zcovers ed infine covers.
  Affinando il codice (in altre parole cercando di eliminare i vari if/else che equivalgono ad una cattiva ottimizzazione del codice) e creando un funzione di supporto denominata.
     * Tipo: instabile
     * Velocità di calcolo: 
         * iniziale: 108.350 μs 
         * modificata: 108.182 μs
  
- * **boundingBox**: sempre attraverso l'utilizzo della funzione denominata _@code_warntype_, è risultata un'instabilità in questo metodo. L'instabilità è dovuta unicamente alla funzione _mapslices_.
+ 2) **boundingBox**: sempre attraverso l'utilizzo della funzione denominata _@code_warntype_, è risultata un'instabilità in questo metodo. L'instabilità è dovuta unicamente alla funzione _mapslices_.
  Per ovviare a tale problematica abbiamo richiamato la funzione _hcat_ che concatena due array lungo due dimensioni rendendo boundingbox _type stable_ aumentando notevolmente le prestazioni. (per verificarlo abbiamo richiamato _@benchmark_ e comparato i risultati)
     * Tipo: instabile
     * Velocità di calcolo: 
@@ -59,13 +64,13 @@ Per quanto riguarda l'ottimizzazione e la parallelizzazione delle funzioni, sono
         * modificata: 13.282 μs
 
 
- * **boxcovering**: boxcovering è type stable ma la variabile covers è un array di Any. Si procede tipizzando covers e dividendo la funzione in microtask.
+ 3) **boxcovering**: boxcovering è type stable ma la variabile covers è un array di Any. Si procede tipizzando covers e dividendo la funzione in microtask.
     * Tipo: stabile
     * Velocità di calcolo: 
         * iniziale:   8.936 μs 
         * modificata: 4.499 μs
 
- * **pointInPolygonClassification**: funzione di notevole importanza nel nostro progetto. In questo caso abbiamo scomposto i vari else/if in tante _mono-task_ per poter alleggerire il codice di quest'ultima.
+ 4) **pointInPolygonClassification**: funzione di notevole importanza nel nostro progetto. In questo caso abbiamo scomposto i vari else/if in tante _mono-task_ per poter alleggerire il codice di quest'ultima.
  Nella figura sottostante vedremo come lavora _pointInPolygon_, denotando tutti quei segmenti che intersecano le facce del poligono preso in esame. Nello specifico nel punto (a) vediamo i singoli segmenti (o linee) che intersecano quest'ultime; Nel punto (b) vengono illustrati tutti quei punti che sono situati esternamente, internamente o sul bordo della faccia del poligono, nel punto (c) vengono cancellati tutti quei segmenti che vanno verso l'esterno della faccia del poligono e per finire vediamo nel punto (d) il risultato finale attraverso il **TGW** in 2D.
     * Tipo: stabile
     * Velocità di calcolo: 
@@ -73,10 +78,11 @@ Per quanto riguarda l'ottimizzazione e la parallelizzazione delle funzioni, sono
         * modificata: 122.009 μs
 
 
-
 ![Lavoro di pointInPolygonClassification](https://github.com/MarcoCap13/LAR-SPLITTING-2D-5.b-/blob/main/docs/plots/images/Schema_pointInPolygon.png?raw=true)
 
-#### Funzioni secondarie utilizzate dalle funzioni principali: pointInPolygon, spaceindex, boxcovering:
+#
+
+### Funzioni secondarie utilizzate dalle funzioni principali: pointInPolygon, spaceindex, boxcovering:
 
 * hcat: concatena due array lungo due dimensioni
 
