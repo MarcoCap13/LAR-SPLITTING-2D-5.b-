@@ -1,4 +1,4 @@
-# Relazione LAR Splitting 2D
+# Relazione II LAR Splitting 2D
 
 _Studenti: Caponi Marco, Ceneda Gianluca_
 
