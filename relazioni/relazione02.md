@@ -50,7 +50,7 @@ Per vedere nel dettaglio i dati ed i benchmark che riporterò qui di seguito, ri
 
 
 1) **spaceIndex**: attraverso lo strumento _@code_warntype_, è emersa un'instabilità in alcune variabili e non dell'intero metodo. Nel particolare sono _type unstable_: bboxes, xboxdict, yboxdict, zboxdict, xcovers, ycovers, zcovers ed infine covers.
- Affinando il codice (in altre parole cercando di eliminare i vari if/else che equivalgono ad una cattiva ottimizzazione del codice) e creando un funzione di supporto denominata.
+ Affinando il codice (in altre parole cercando di eliminare i vari if/else che equivalgono ad una cattiva ottimizzazione del codice) e creando un funzione di supporto denominata _removeIntersection_ abbiamo raggiunto i seguenti risultati.
     * Tipo: instabile
     * Velocità di calcolo: 
         * iniziale: 108.350 μs 
