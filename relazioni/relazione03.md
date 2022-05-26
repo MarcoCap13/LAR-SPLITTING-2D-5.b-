@@ -44,9 +44,9 @@ Per quanto riguarda l'ottimizzazione e la parallelizzazione delle funzioni, sono
 
 ## Studio delle funzioni ottimizzate
 
-Per vedere nel dettaglio i nuovi dati ed i benchmark estrapolati grazie alla workstation DGX-1, riporto il link diretto: 
+Per vedere nel dettaglio i nuovi dati ed i benchmark estrapolati grazie alla workstation **DGX-1**, riporto il link diretto: 
     
-* https://github.com/MarcoCap13/LAR-SPLITTING-2D-5.b-/tree/main/docs/benchmark 
+* https://github.com/MarcoCap13/LAR-SPLITTING-2D-5.b-/tree/main/docs/benchmark/benchmark_DGX-1
 
 
 1) **spaceIndex**: attraverso lo strumento _@code_warntype_, è emersa un'instabilità in alcune variabili e non dell'intero metodo. Nel particolare sono _type unstable_: bboxes, xboxdict, yboxdict, zboxdict, xcovers, ycovers, zcovers ed infine covers.
