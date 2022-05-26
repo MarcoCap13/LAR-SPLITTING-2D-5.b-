@@ -78,7 +78,71 @@ result = []
 classify = pointInPolygonClassification(V,EV)
 ```
 """
-function pointInPolygonClassification(V,EV)
+function edgecode1(c_int) #c_edge == 1
+    if c_int == 0 return "p_on"
+    elseif c_int == 4 crossingTest(1,2,status, counter) end 
+end
+
+function edgecode2(c_int) #c_edge == 2
+    if c_int == 0 return "p_on"
+    elseif c_int == 4 crossingTest(2,1,status, counter) end 
+end
+
+function edgecode3(c_int) #c_edge == 3
+    if c_int == 0 return "p_on"
+    elseif c_int == 4 counter += 1 end 
+end
+
+function edgecode4(c_un) #c_edge == 4
+    if c_un == 3 return "p_on" end 
+end
+
+function edgecode5(c1,c2) #c_edge == 5
+    if (c1==0) | (c2==0) return "p_on"
+    else crossingTest(1,2,status, counter) end 
+end
+
+function edgecode6(c1,c2) #c_edge == 6
+    if ((c1==0) | (c2==0)) return "p_on"
+    else crossingTest(2,1,status, counter) end 
+end
+
+function edgecode7(counter) #c_edge == 7
+    counter += 1
+end
+
+function edgecode8(c_un) #c_edge == 8 (c_un == 6 su slide)
+    if (c_un == 8) return "p_on" end   
+end
+
+function edgecode9_10(c1,c2) #c_edge == 9/10
+    if ((c1 ==0) | (c2==0)) return "p_on" end
+end
+
+function edgecode11() #c_edge == 11
+end
+
+function edgecode12(c_un) #c_edge = 12
+    if (c_un == 12 ) return "p_on" end    
+end
+
+function edgecode13(c1,c2) #c_edge = 13
+    if (( c1 ==4) | (c2 == 4))
+        crossingTest(1,2,status, counter) end
+end
+
+function edgecode14(c1,c2) #c_edge = 14
+    if (( c1 ==4) | (c2 == 4))
+        crossingTest(2,1,status, counter) end
+end
+
+function edgecode15(x1,x2,y1,y2,x,y)
+    x_int = ((y-y2)*(x1-x2)/(y1-y2))+x2
+    if x_int > x counter+=1
+    elseif (x_int == x) return "p_on" end
+end
+
+function pointInPolygonClassification(V,EV) 
     function pointInPolygonClassification0(pnt)
         x,y = pnt
         xmin,xmax,ymin,ymax = x,x,y,y
@@ -94,32 +158,25 @@ function pointInPolygonClassification(V,EV)
             if (c_edge == 0) & (c_un == 0) return "p_on"
             elseif (c_edge == 12) & (c_un == c_edge) return "p_on"
             elseif c_edge == 3
-                if c_int == 0 return "p_on"
-                elseif c_int == 4 count += 1 end
+                edgecode3(c_int)
             elseif c_edge == 15
-                x_int = ((y-y2)*(x1-x2)/(y1-y2))+x2
-                if x_int > x count += 1
-                elseif x_int == x return "p_on" end
+               edgecode15(x1,x2,y1,y2,x,y)
             elseif (c_edge == 13) & ((c1==4) | (c2==4))
                     crossingTest(1,2,status,count)
             elseif (c_edge == 14) & ((c1==4) | (c2==4))
                     crossingTest(2,1,status,count)
-            elseif c_edge == 7 count += 1
+            elseif c_edge == 7 edgecode7(counter)
             elseif c_edge == 11 count = count
             elseif c_edge == 1
-                if c_int == 0 return "p_on"
-                elseif c_int == 4 crossingTest(1,2,status,count) end
+               edgecode1(c_int)
             elseif c_edge == 2
-                if c_int == 0 return "p_on"
-                elseif c_int == 4 crossingTest(2,1,status,count) end
+                edgecode2(c_int)
             elseif (c_edge == 4) & (c_un == c_edge) return "p_on"
             elseif (c_edge == 8) & (c_un == c_edge) return "p_on"
             elseif c_edge == 5
-                if (c1==0) | (c2==0) return "p_on"
-                else crossingTest(1,2,status,count) end
+                edgecode5(c1,c2)
             elseif c_edge == 6
-                if (c1==0) | (c2==0) return "p_on"
-                else crossingTest(2,1,status,count) end
+                edgecode6(c1,c2)
             elseif (c_edge == 9) & ((c1==0) | (c2==0)) return "p_on"
             elseif (c_edge == 10) & ((c1==0) | (c2==0)) return "p_on"
             end
@@ -132,7 +189,6 @@ function pointInPolygonClassification(V,EV)
     end
     return pointInPolygonClassification0
 end
-
 
 
 #---------------------------------------------------------------------
