@@ -289,7 +289,7 @@ end
 
 
 							
-@testset "test nuove funzioni" begin
+@testset "createIntervalTree test" begin
 	
 	@testset "createIntervalTree test" begin
 		dict = OrderedDict([0.0, 1.0] => [1, 3],[1.0, 1.0] => [2],[0.0, 0.0] => [4],[0.0, 2.0] => [5])
@@ -312,6 +312,7 @@ end
 		@test t.root.entries[4].value == [2]
 	end
 
+
 	@testset "removeIntersection test" begin
 		covers = [[4, 1, 3, 5, 2], [1, 3, 5, 2], [4, 1, 3, 5, 2], [4, 1, 3, 5], [4, 1, 3, 5, 2]]
 		removeIntersection(covers)
@@ -323,6 +324,7 @@ end
 		@test covers[5] == [4, 1, 3, 2]
 
 	end
+
 	@testset "addIntersection test" begin
 		bb = [[0.0 1.0; 0.0 0.0], [1.0 1.0; 0.0 1.0], [0.0 1.0; 1.0 1.0], [0.0 0.0; 0.0 1.0], [0.0 2.0; 0.0 1.0]];
 		dict = OrderedDict([0.0, 1.0] => [1, 3],[1.0, 1.0] => [2],[0.0, 0.0] => [4],[0.0, 2.0] => [5])

@@ -257,11 +257,24 @@ function input_collection(data::Array)::Lar.LAR
 	return Lar.struct2lar(assembly)
 end
 
+#function boundingbox(vertices::Lar.Points)
+#   minimum = mapslices(x->min(x...), vertices, dims=2)
+#   maximum = mapslices(x->max(x...), vertices, dims=2)
+#   return minimum, maximum
+#end
 function boundingbox(vertices::Lar.Points)
-   minimum = mapslices(x->min(x...), vertices, dims=2)
-   maximum = mapslices(x->max(x...), vertices, dims=2)
-   return minimum, maximum
-end
+    firstDim = vertices[1,:]
+    secondDim = vertices[2,:]
+     if (size(vertices,1)==3)
+        thirdDim = vertices[3,:]
+         minimum = Threads.@spawn hcat([min(firstDim...), min(secondDim...), min(thirdDim...)])
+         maximum = Threads.@spawn hcat([max(firstDim...), max(secondDim...), max(thirdDim...)])
+    else
+         minimum = Threads.@spawn hcat([min(firstDim...), min(secondDim...)])
+         maximum = Threads.@spawn hcat([max(firstDim...), max(secondDim...)])
+    end
+    return fetch(minimum),fetch(maximum)
+ end
 
 function coordintervals(coord,bboxes)
 	boxdict = OrderedDict{Array{Float64,1},Array{Int64,1}}()
