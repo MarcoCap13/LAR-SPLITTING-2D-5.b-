@@ -36,7 +36,7 @@ queryPoint = [0.5,0.5]
 		@test tilecode([-.5,-.5])==10
 		@test tilecode([.5,.95])==1
 	end
-	
+
 	@testset "pointInPolygonClassification Tests" begin
 		@test Lar.pointInPolygonClassification(V,EV) isa Function
 		@test pnt = [0.5,0.5] isa Array{Float64,1}
