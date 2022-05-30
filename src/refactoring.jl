@@ -509,42 +509,45 @@ Plasm.viewexploded(W,EW)(1.2,1.2,1.2)
 ```
 """
 function fragmentlines(model)
-	V,EV = model
-	# acceleration via spatial index computation
-	Sigma = Lar.spaceindex(model)
-	# actual parametric intersection of each line with the close ones
-	lineparams = Lar.linefragments(V,EV,Sigma)
-	# initialization of local data structures
-	vertdict = OrderedDict{Array{Float64,1},Array{Int,1}}()
-	pairs = collect(zip(lineparams, [V[:,e] for e in EV]))
-	vertdict = OrderedDict{Array{Float64,1},Int}()
-	W = Array[]
-	EW = Array[]
-	k = 0
-	# generation of intersection points
-	for (params,linepoints) in pairs
-		v1 = linepoints[:,1]
-		v2 = linepoints[:,2]
-		points = [ v1 + t*(v2 - v1) for t in params]   # !!!! loved !!
-		vs = zeros(Int64,1,length(points))
-		PRECISION = 8
-		# identification via dictionary of points
-		for (h,point) in enumerate(points)
-			point = map(Lar.approxVal(PRECISION), point)
-			if haskey(vertdict, point) == false
-				k += 1
-				vertdict[point] = k
-				push!(W, point)
-			end
-			vs[h] = vertdict[point]
-		end
-		[push!(EW, [vs[k], vs[k+1]]) for k=1:length(vs)-1]
-	end
-	# normalization of output
-	W,EW = hcat(W...),convert(Array{Array{Int64,1},1},EW)
-	V,EV = Lar.congruence((W,EW))
-	return V,EV
+    V,EV = model
+    Sigma = spaceindex(model)
+    lineparams = linefragments(V,EV,Sigma)
+    vertdict = OrderedDict{Array{Float64,1},Array{Int,1}}()
+    pairs = collect(zip(lineparams, [V[:,e] for e in EV]))
+    vertdict = OrderedDict{Array{Float64,1},Int}()
+    W = Array[]
+    EW = Array[]
+    k = 0
+    l = length(pairs)
+    @inbounds for i = 1:l
+        params = pairs[i][1]
+        linepoints = pairs[i][2]
+        v1 = linepoints[:,1] #Isolo primo punto dello spigolo
+        v2 = linepoints[:,2] #Isolo secondo punto dello spigolo
+        points = [ v1 + t*(v2 - v1) for t in params]   # !!!! loved !!
+        vs = zeros(Int64,1,length(points))
+        PRECISION = 8
+        numpoint = length(points)
+        @inbounds @simd for h = 1:numpoint
+            points[h] = map(approxVal(PRECISION), points[h])
+            if !haskey(vertdict, points[h])
+                k += 1 #Genero ID punto 
+                vertdict[points[h]] = k #Associo l'ID al punto
+                push!(W, points[h]) #Pusho il punto(x,y) nell'array W
+            end
+            vs[h] = vertdict[points[h]] 
+        end
+        m = length(vs) - 1
+        @inbounds @simd for k=1:m
+            push!(EW, [vs[k], vs[k+1]])
+        end
+    end
+    W,EW = hcat(W...),convert(Array{Array{Int64,1},1},EW)
+    V,EV = congruence((W,EW))
+    return V,EV
 end
+
+
 function fraglines(sx::Float64=1.2,sy::Float64=1.2,sz::Float64=1.2)
 	function fraglines0(model)
 		V,EV = Lar.fragmentlines(model)
