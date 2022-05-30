@@ -459,40 +459,40 @@ julia> Lar.linefragments(V,EV,Sigma)
  [0.0, 0.5, 1.0]
 ```
 """
-function linefragments(V,EV,Sigma)
-	# remove the double intersections by ordering Sigma
-	m = length(Sigma)
-	sigma = map(sort,Sigma)
-	reducedsigma = sigma ##[filter(x->(x > k), sigma[k]) for k=1:m]
-	# pairwise parametric intersection
-	params = Array{Float64,1}[[] for i=1:m]
-	for h=1:m
-		if sigma[h] ≠ []
-			line1 = V[:,EV[h]]
-			for k in sigma[h]
-				line2 = V[:,EV[k]]
-				out = Lar.intersection(line1,line2) # TODO: w interval arithmetic
-				if out ≠ nothing
-					α,β = out
-					if 0<=α<=1 && 0<=β<=1
-						push!(params[h], α)
-						push!(params[k], β)
-					end
-				end
-			end
-		end
-	end
-	# finalize parameters of fragmented lines
-	fragparams = []
-	for line in params
-		push!(line, 0.0, 1.0)
-		line = sort(collect(Set(line)))
-		push!(fragparams, line)
-	end
-	return fragparams
+using Base.Threads
+function linefragments(V,EV,sigma)
+    m = length(sigma) 
+    sigma = map(sort,sigma) 
+    params = Array{Array{Float64,1}}(undef,m)
+    @threads for i=1:m
+        params[i] = []
+    end
+    line1=[0.0 0.0; 0.0 0.0]
+    line2=[0.0 0.0; 0.0 0.0]
+    @threads for h=1:m
+        if sigma[h] ≠ []
+            line1 = V[:,EV[h]]
+            @threads for k in sigma[h]
+            line2 = V[:,EV[k]]
+                out = intersection(line1,line2) 
+                if out ≠ ()
+                    if 0<=out[1]<=1 && 0<=out[2]<=1
+                        push!(params[h], out[1])
+                        push!(params[k], out[2])
+                    end
+                end
+            end
+        end
+        end
+    len = length(params)
+    @threads for i=1:len
+        push!(params[i], 0.0, 1.0)
+        params[i] = sort(collect(Set(params[i])))
+    end
+    return params
 end
-
-
+print("Numero di threads allocati :")
+println(nthreads())
 
 """
 	fragmentlines(model::Lar.LAR)::Lar.LAR
