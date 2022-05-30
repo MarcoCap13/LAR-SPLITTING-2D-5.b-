@@ -459,7 +459,6 @@ julia> Lar.linefragments(V,EV,Sigma)
  [0.0, 0.5, 1.0]
 ```
 """
-using Base.Threads
 function linefragments(V,EV,sigma)
     m = length(sigma) 
     sigma = map(sort,sigma) 
