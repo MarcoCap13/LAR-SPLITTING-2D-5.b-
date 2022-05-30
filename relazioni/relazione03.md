@@ -70,7 +70,41 @@ Per vedere nel dettaglio i nuovi dati ed i benchmark estrapolati grazie alla wor
         * iniziale:   8.936 μs 
         * modificata: 377 ns
 
- 4) **pointInPolygonClassification**: funzione di notevole importanza nel nostro progetto. In questo caso abbiamo scomposto i vari else/if in tante _mono-task_ per poter alleggerire il codice di quest'ultima.
+
+ 4) **coordintervals**: funzione che prende in input una matrice (ovvero i bounding box) e un intero che serve a specificare su quale coordinata si vuole lavorare restituendo in output una lista boxdict ordinata. Attraverso la macro _@code_warntype_ è stata individuata la stabilità di quest'ultima.
+    * Tipo: stabile
+    * Velocità di calcolo: 
+        * iniziale:   972.267 ns
+        * modificata: 1.029 μs 
+
+ 5) **fragmentlines**: prende in input il modello e anche grazie a spaceindex calcola e restituisce vertici e spigoli di quest’ultimo.
+ Abbiamo convertito alcune list comprehension in cicli del tipo for i=1:n .. in modo da poter utilizzare la macro _@inbounds_ per disabilitare il boundchecking del compilatore e la macro _@simd_.
+ L'inserimento esplicito della macro simd non ha comportato alcun beneficio, infatti come si apprende dal sito ufficiale Julia: _"Note that in many cases, Julia can automatically vectorize code without the @simd macro"_.
+ Per quanto riguarda la macro _@inbounds_,invece, ha ridotto leggermente il numero di allocazioni in memoria.
+ Nel complesso non sono stati rilevati miglioramenti riguardo le prestazioni della versione iniziale e modificata.
+    * Tipo: stabile
+    * Velocità di calcolo: 
+        * iniziale:   196.813 μs
+        * modificata: 197.939 μs 
+
+ 
+
+ 6) **linefragment**:Calcola le sequenze dei parametri ordinati frammentando l’input. Inoltre, i parametri di bordo (0 e 1) sono inclusi nel valore di ritorno dell’output. Il parametro ‘Sigma’ identifica un indice che fornisce un sottoinsieme di linee il cui contenuto interseca il ‘box’ di ciascuna linea di input (identificata dal parametro “EV”).
+ Per quanto riguarda quest'ultima funzione, sono stati riscontrati notevoli miglioramenti a livello di prestazioni.
+    * Tipo: stabile
+    * Velocità di calcolo: 
+        * iniziale:   66.414 μs
+        * modificata: 33.001 μs 
+
+
+ 7) **congruence**:funzione che prende in ingresso un modello di Lar, restituendo una funzione di base denominata hcat che concatena due array lungo due dimensioni.
+    * Tipo: stabile
+    * Velocità di calcolo: 
+        * iniziale:   36.683 μs
+        * modificata: 19.516 μs 
+
+
+ 8) **pointInPolygonClassification**: funzione di notevole importanza nel nostro progetto. In questo caso abbiamo scomposto i vari else/if in tante _mono-task_ per poter alleggerire il codice di quest'ultima.
  Nella figura sottostante vedremo come lavora _pointInPolygon_, denotando tutti quei segmenti che intersecano le facce del poligono preso in esame. Nello specifico nel punto (a) vediamo i singoli segmenti (o linee) che intersecano quest'ultime; Nel punto (b) vengono illustrati tutti quei punti che sono situati esternamente, internamente o sul bordo della faccia del poligono, nel punto (c) vengono cancellati tutti quei segmenti che vanno verso l'esterno della faccia del poligono e per finire vediamo nel punto (d) il risultato finale attraverso il **TGW** in 2D.
     * Tipo: stabile
     * Velocità di calcolo: 
