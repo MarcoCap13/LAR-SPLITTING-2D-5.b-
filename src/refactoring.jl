@@ -799,9 +799,7 @@ end
 =#
 
 
-
-
-# FUNZIONI DI SUPPORTO PER spaceindex E boxcovering
+# FUNZIONI DI SUPPORTO
 
 function removeIntersection(covers::Array{Array{Int64,1},1})
     @threads for k=1:length(covers)
