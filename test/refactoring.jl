@@ -263,24 +263,6 @@ end
 end
 
 
-@testset "Refactoring pipeline 2" begin
-
-	@testset "bbbbbbb Tests" begin
-		@test true
-	end
-	
-	@testset "bbbbbbb Tests" begin
-		@test true
-	end
-	
-	@testset "bbbbbbb Tests" begin
-		@test true
-	end
-end
-
-
-
-
 @testset "congruence" begin
     V1 = [0.0 1.0 ; 
          0.0 0.0]
