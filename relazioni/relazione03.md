@@ -45,7 +45,7 @@ Per quanto riguarda l'ottimizzazione e la parallelizzazione delle funzioni, sono
 
 ## Studio delle funzioni ottimizzate
 
-Per vedere nel dettaglio i nuovi dati ed i benchmark estrapolati grazie alla workstation **DGX-1**, riporto il link diretto: 
+Per vedere nel dettaglio i nuovi dati ed i benchmark riporto il link diretto: 
     
 * https://github.com/MarcoCap13/LAR-SPLITTING-2D-5.b-/tree/main/docs/benchmark/benchmark_DGX-1
 
