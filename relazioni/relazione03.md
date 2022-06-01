@@ -1,4 +1,4 @@
-# Relazione III: LAR Splitting 2D
+# Relazione Finale: LAR Splitting 2D
 
 _Studenti: Caponi Marco, Ceneda Gianluca_
 
