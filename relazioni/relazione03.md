@@ -52,9 +52,10 @@ Per vedere nel dettaglio i nuovi dati ed i benchmark riporto il link diretto:
     
 * https://github.com/MarcoCap13/LAR-SPLITTING-2D-5.b-/tree/main/docs/benchmark/benchmark_DGX-1
 
+Lo studio preliminare del progetto è iniziato dalla comprensione del codice per capire come funzionasse lo _splitting 2D_ per poi quindi essere in grado di manipolare le strutture ad esso associate. Dopo di che si è passati allo studio delle funzioni più importanti come _spaceindex_ e _pointInPolygonClassification_ attraverso varie simulazioni delle stesse evidenziando così un'instabilità di tipo su alcune sue variabili grazie all'uso della macro @code_warntype citata poco fa, oltre ad una velocita di esecuzione non proprio ottimale. Per risolvere questi problemi, si sono dovute studiare tutte le singole sotto-funzioni in particolare quelle che sollevavano l'**instabilità** sul tipo:
 
 1) **spaceIndex**: attraverso lo strumento _@code_warntype_, è emersa un'instabilità in alcune variabili e non dell'intero metodo. Nel particolare sono _type unstable_: bboxes, xboxdict, yboxdict, zboxdict, xcovers, ycovers, zcovers ed infine covers.
- Affinando il codice (in altre parole cercando di eliminare i vari if/else che equivalgono ad una cattiva ottimizzazione del codice) e creando un funzione di supporto denominata _removeIntersection_ abbiamo raggiunto i seguenti risultati.
+ Parallelizzando il codice e creando un funzione di supporto denominata _removeIntersection_ per poter alleggerire il codice stesso, abbiamo raggiunto i seguenti risultati con un notevole miglioramento.
     * Tipo: instabile
     * Velocità di calcolo: 
         * iniziale: 116 μs 
@@ -67,6 +68,7 @@ Per vedere nel dettaglio i nuovi dati ed i benchmark riporto il link diretto:
         * iniziale:  9.38 μs 
         * modificata: 8.21 μs
 
+Altre sotto-funzioni **type stable** invece sono state studiate per comprendere il funzionamento del codice e analizzare i tempi di esecuzione:
 
  3) **boxcovering**: boxcovering è type stable ma la variabile covers è un array di Any. Si procede tipizzando covers e dividendo la funzione in microtask.
     * Tipo: stabile
