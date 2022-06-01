@@ -137,7 +137,7 @@ inizialmente si è sono eseguiti i test pre-esistenti per verificare il corretto
 
 2) **@testset "removeIntersection test"**: avendo isolato il task della funzione spaceindex che rimuove le intersezioni dei singoli boundingbox con se stesso, vogliamo assicurarci che funzioni nel modo corretto. Per farlo creiamo un array covers di test e controlliamo che la funzione modifichi la struttura dati nel modo corretto per ogni valore.
 
-3) **@testset "addIntersection! test"**: avendo isolato il task della funzione _boxcovering_ che aggiunge in 'covers' in i-esima posizione tutti i bounding box che intersecano l'i-esimo bounding box, vogliamo assicurarci che funzioni nel modo corretto. Per farlo creiamo un boundingbox di test e un OrderedDict con cui creare un _intervalTree_. A questo punto diamo queste variabili come input alla nostra funzione e confrontiamo il risultato ottenuto con quello atteso.
+3) **@testset "addIntersection test"**: avendo isolato il task della funzione _boxcovering_ che aggiunge in 'covers' in i-esima posizione tutti i bounding box che intersecano l'i-esimo bounding box, vogliamo assicurarci che funzioni nel modo corretto. Per farlo creiamo un boundingbox di test e un OrderedDict con cui creare un _intervalTree_. A questo punto diamo queste variabili come input alla nostra funzione e confrontiamo il risultato ottenuto con quello atteso.
 
 Per quanto rigurdano i test delle funzioni principali da noi studiate, abbiamo svolto con successo i test sulle funzioni iniziali dando i risultati aspettati.
 Solo successivamente (con un po' di difficoltà) abbiamo svolto i test sulle funzioni da noi modificate arrivando alla completa correttezza di quest'ultimi.
