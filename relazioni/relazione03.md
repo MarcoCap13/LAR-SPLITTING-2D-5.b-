@@ -21,13 +21,14 @@ Prime analisi, test e possibili ottimizzazioni sul progetto LAR SPLITTING 2D con
 
 # RELAZIONE DEL PROGETTO
 
-In questa sezione si illustreranno passo passo tutti i vari cambiamenti che sono stati fatti per poter ottimizzare, migliorare il codice e la sua velocità computazionale.
+In questa sezione si illustreranno passo passo tutti i vari cambiamenti che sono stati effettuati per poter ottimizzare, migliorare il codice e la sua velocità computazionale.
 Per vedere le differenze di prestazioni tra una versione e un'altra abbiamo usato due computer con caratteristiche profondamente diverse; le differenze notate tra il computer meno performante e quello più performante sono state notevoli.
 Per quanto riguarda la parte precedente del codice, è presente una descrizione accurata dei vari dati acquisiti attraverso i nostri calcolatori e descritti nella relazione precedente, visitabile all'indirizzo qui di seguito: https://github.com/MarcoCap13/LAR-SPLITTING-2D-5.b-/blob/main/relazioni/relazione02.md
 
-Abbiamo continuato il nostro studio sulle macro per poter parallelizzare e migliorare la velocità computazionale delle varie funzioni; Nello specifico ci siamo soffermati questa volta sullo studio di due nuove macro: _@async_ e _@views_:
+## Metodi di parallelizzione usati
 
-* **@async**: questa macro crea e pianifica le attività per tutto il codice all'inteno della sua attività. E' similare alla macro _@spawn_ con la differenza che runna le task solo a livello locale 
+Abbiamo continuato il nostro studio sulle macro per poter parallelizzare e migliorare la velocità computazionale delle varie funzioni. Nello specifico ci siamo soffermati questa volta sullo studio delle seguenti macro:
+
 * **@views**: con views si possono creare delle viste degli array che ci permettono di accedere ai valori di quest'ultimo senza effettuare _nessuna copia_
 
 * **@btime**: questa macro svolge lo stesso lavoro di _@benchmark_ ma restituisce un output 
@@ -42,6 +43,8 @@ Per quanto riguarda l'ottimizzazione e la parallelizzazione delle funzioni, sono
 * **@threads**: l'utilizzo di questa macro è fondamentale per indicare a _Julia_  la presenza di **loop** che identificano _regioni multi-thread_.
 
 * **@spawn**: identifica uno degli stumenti cardini di _Julia_ per l'assegnazioni dei vari compiti per le task. 
+
+* **@async**: questa macro crea e pianifica le attività per tutto il codice all'inteno della sua attività. E' similare alla macro _@spawn_ con la differenza che runna le task solo a livello locale
 
 ## Studio delle funzioni ottimizzate
 
@@ -76,7 +79,7 @@ Per vedere nel dettaglio i nuovi dati ed i benchmark riporto il link diretto:
     * Tipo: stabile
     * Velocità di calcolo: 
         * iniziale:   972.267 ns
-        * modificata: 1.029 μs 
+        * modificata: 1.029 μs  
 
  5) **fragmentlines**: prende in input il modello e anche grazie a spaceindex calcola e restituisce vertici e spigoli di quest’ultimo.
  Abbiamo convertito alcune list comprehension in cicli del tipo for i=1:n .. in modo da poter utilizzare la macro _@inbounds_ per disabilitare il boundchecking del compilatore e la macro _@simd_.
@@ -87,8 +90,6 @@ Per vedere nel dettaglio i nuovi dati ed i benchmark riporto il link diretto:
     * Velocità di calcolo: 
         * iniziale:   196.813 μs
         * modificata: 197.939 μs 
-
- 
 
  6) **linefragment**:Calcola le sequenze dei parametri ordinati frammentando l’input. Inoltre, i parametri di bordo (0 e 1) sono inclusi nel valore di ritorno dell’output. Il parametro ‘Sigma’ identifica un indice che fornisce un sottoinsieme di linee il cui contenuto interseca il ‘box’ di ciascuna linea di input (identificata dal parametro “EV”).
  Per quanto riguarda quest'ultima funzione, sono stati riscontrati notevoli miglioramenti a livello di prestazioni.
@@ -147,11 +148,12 @@ https://github.com/MarcoCap13/LAR-SPLITTING-2D-5.b-/tree/main/notebook
 ## PARALLELIZZAZIONE
 
 Durante lo studio preliminare ed esecutivo, abbiamo cercato di ottimizzare il nostro codice sia a livello di CPU che GPU.
-Considerato questo, abbiamo deciso di concentrarci maggiormente sulla parallelizzazione su CPU.
-Per la parallelizzazione su CPU abbiamo utilizzato le macro sopra elencate: _@threads_ e _@spawn_. La prima viene usata su un ciclo for per dividere lo spazio di iterazione su più thread secondo una certa politica di scheduling, mentre la seconda permette di eseguire una funzione su un thread libero nel momento dell'esecuzione. **@threads** viene usata nella funzione removeIntersection(), boxcovering() e infine in addIntersection(), mentre **@spawn** viene usata principalmente nella funzione spaceindex().
+Considerato questo, abbiamo deciso di concentrarci maggiormente sulla parallelizzazione su CPU poichè uno dei pc utilizzati per il progetto era sprovvisto di una GPU dedicata.
+Per la parallelizzazione su CPU abbiamo utilizzato maggiormente le macro sopra elencate: _@threads_ e _@spawn_. La prima viene usata su un _ciclo for_ per dividere lo spazio di iterazione su più thread secondo una certa politica di scheduling, mentre la seconda permette di eseguire una funzione su un thread libero nel momento dell'esecuzione. **@threads** viene usata nella funzione removeIntersection(), boxcovering() e infine in addIntersection(), mentre **@spawn** viene usata principalmente nella funzione spaceindex().
 Per eseguire questo tipo di parallelizzazione bisogna tenere conto del numero di core presenti sulla macchina e proprio per questo motivo abbiamo provato a lavorare con la **workstation DGX-1** di _nvidia_  per poter raggiungere prestazioni migliori. Anche con ciò, si è notato che utilizzare un numero di thread maggiore di quelli disponibili non porta ad un aumento delle prestazioni.
 Il numero di thread da assegnare ai vari processi processi julia va stabilito prima dell'avvio e può essere controllato e settato tramite la funzione _nthreads()_.
-Nel grafico sottostante, abbiamo testato le prestazioni di _spaceindex()_ al variare del numero di thread. Nello specifico quando si hanno a disposizione uno, quattro o otto thread (il massimo ottenibile dalla worksation DGX) e analizzando i tempi, si evince che il numero di thread deve essere scelto in base alla complessità del modello preso in esame. Infatti, utilizzando modelli semplici, un numero elevato di thread porta ad un peggioramento delle prestazioni, mentre all'aumentare della complessità si ha un miglioramento.
+Nel grafico sottostante abbiamo testato le prestazioni di _spaceindex()_, una delle funzioni più importanti per lo _splitting_.
+Nello specifico abbiamo visto cosa accadeva al variare del numero di thread, in particolare, quando si hanno a disposizione uno, quattro o otto thread (il massimo ottenibile dalla worksation DGX). Analizzando i tempi, si evince che il numero di thread deve essere scelto in base alla complessità del modello preso in esame. Infatti, utilizzando modelli semplici, un numero elevato di thread porta ad un peggioramento delle prestazioni, mentre all'aumentare della complessità si ha un miglioramento.
 
 ![analisi die thread)](https://github.com/MarcoCap13/LAR-SPLITTING-2D-5.b-/blob/main/docs/plots/images/analisi_thread.png?raw=true)
 
