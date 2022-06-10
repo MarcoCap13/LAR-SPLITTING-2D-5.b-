@@ -6,6 +6,7 @@ using OhMyREPL
 
 
 # 3D Boolean example generation
+
 #-------------------------------------------------------------------------------
 n,m = 1,1
 V,(VV,EV,FV) = Lar.cuboidGrid([n,m],true)
