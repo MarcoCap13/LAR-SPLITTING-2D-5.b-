@@ -57,7 +57,7 @@ Per vedere nel dettaglio i nuovi dati ed i benchmark riporto il link diretto:
     
 * https://github.com/MarcoCap13/LAR-SPLITTING-2D-5.b-/tree/main/docs/benchmark/benchmark_DGX-1
 
-Lo studio preliminare del progetto è iniziato dalla comprensione del codice per capire come funzionasse lo _splitting 2D_ per poi quindi essere in grado di manipolare le strutture ad esso associate. Dopo di che si è passati allo studio delle funzioni più importanti come _spaceindex_ e _pointInPolygonClassification_ attraverso varie simulazioni delle stesse evidenziando così un'instabilità di tipo su alcune sue variabili grazie all'uso della macro _@code_warntype_ citata poco fa, oltre ad una velocita di esecuzione non proprio ottimale. Per risolvere questi problemi, si sono dovute studiare tutte le singole sotto-funzioni in particolare quelle che sollevavano l'**instabilità** sul tipo:
+Lo studio preliminare del progetto è iniziato dalla comprensione del codice per capire come funzionasse lo _splitting 2D_ per poi essere in grado di manipolare le strutture ad esso associate. Dopo di che si è passati allo studio delle funzioni più importanti come _spaceindex_ e _pointInPolygonClassification_ attraverso varie simulazioni delle stesse evidenziando così un'instabilità di tipo su alcune sue variabili grazie all'uso della macro _@code_warntype_ citata poco fa, oltre ad una velocita di esecuzione non proprio ottimale. Per risolvere questi problemi, si sono dovute studiare tutte le singole sotto-funzioni in particolare quelle che sollevavano l'**instabilità** sul tipo:
 
 1) **spaceIndex**: attraverso lo strumento _@code_warntype_, è emersa un'instabilità in alcune variabili e non dell'intero metodo. Nel particolare sono _type unstable_: bboxes, xboxdict, yboxdict, zboxdict, xcovers, ycovers, zcovers ed infine covers.
  Parallelizzando il codice e creando un funzione di supporto denominata _removeIntersection_ per poter alleggerire il codice stesso, abbiamo raggiunto i seguenti risultati con un notevole miglioramento.
@@ -71,7 +71,7 @@ Lo studio preliminare del progetto è iniziato dalla comprensione del codice per
     * Tipo: instabile
     * Velocità di calcolo: 
         * iniziale:  9.38 μs 
-        * modificata: 8.21 μs
+        * modificata (con workstation DGX-1): 8.21 μs
 
 Altre sotto-funzioni **type stable** invece sono state studiate per comprendere il funzionamento del codice e analizzare i tempi di esecuzione:
 
@@ -82,21 +82,21 @@ Altre sotto-funzioni **type stable** invece sono state studiate per comprendere 
     * Tipo: stabile
     * Velocità di calcolo: 
         * iniziale:   8.936 μs 
-        * modificata : 377 ns
-        * modificata con DGX-1: 4.233 μs
+        * modificata (con workstation DGX-1): 4.46 μs
 
  4) **coordintervals**:Attraverso la macro _@code_warntype_ è stata individuata la stabilità di quest'ultima.
  La funzione è risultata molto semplice e qualsiasi intervento svolto, non ha portato a grossi miglioramenti. Abbiamo utilizzato la macro _@inbounds_ ma non ha portato a notevoli stravolgimenti.
     * Tipo: stabile
     * Velocità di calcolo: 
-        * iniziale:   972.267 ns
+        * iniziale:   958.143 ns
         * modificata: 1.029 μs  
 
  5) **fragmentlines**:
- Abbiamo convertito alcune list comprehension in cicli del tipo for i=1:n .. in modo da poter utilizzare la macro _@inbounds_ per disabilitare il boundchecking del compilatore.
+Abbiamo convertito alcune list comprehension in cicli del tipo for i=1:n .. in modo da poter utilizzare la macro _@inbounds_ per disabilitare il boundchecking del compilatore.
  L'inserimento esplicito della macro simd non ha comportato alcun beneficio, infatti come si apprende dal sito ufficiale Julia: _"Note that in many cases, Julia can automatically vectorize code without the @simd macro"_.
  Per quanto riguarda la macro _@inbounds_,invece, ha ridotto leggermente il numero di allocazioni in memoria.
  Nel complesso non sono stati rilevati miglioramenti riguardo le prestazioni della versione iniziale e modificata.
+ Utilizzando la workstation _DGX-1_ non abbiamo riscontrato migliorameti importanti.
     * Tipo: stabile
     * Velocità di calcolo: 
         * iniziale:   196.813 μs
@@ -113,8 +113,8 @@ Altre sotto-funzioni **type stable** invece sono state studiate per comprendere 
  7) **congruence**:funzione che prende in ingresso un modello di Lar, restituendo una funzione di base denominata hcat che concatena due array lungo due dimensioni. Le macro utilizzate sono _@threads_ e _@inbounds_. Si nota un certo miglioramento se utilizziamo dei _filter_ per i dati di EV
     * Tipo: stabile
     * Velocità di calcolo: 
-        * iniziale:   36.683 μs
-        * modificata (workstation DGX-1): 19.516 μs 
+        * iniziale:   36.8 μs
+        * modificata (workstation DGX-1): 19.6 μs 
 
 
  8) **pointInPolygonClassification**: funzione di notevole importanza nel nostro progetto. In questo caso abbiamo scomposto i vari else/if in tante _mono-task_ per poter alleggerire il codice.
@@ -123,8 +123,8 @@ Altre sotto-funzioni **type stable** invece sono state studiate per comprendere 
  Nella figura sottostante vedremo come lavora _pointInPolygon_, denotando tutti quei segmenti che intersecano le facce del poligono preso in esame. Nello specifico nel punto (a) vediamo i singoli segmenti (o linee) che intersecano quest'ultime; Nel punto (b) vengono illustrati tutti quei punti che sono situati esternamente, internamente o sul bordo della faccia del poligono, nel punto (c) vengono cancellati tutti quei segmenti che vanno verso l'esterno della faccia del poligono e per finire vediamo nel punto (d) il risultato finale attraverso il **TGW** in 2D.
     * Tipo: stabile
     * Velocità di calcolo: 
-        * iniziale:   80.9 μs
-        * modificata: 82.2 μs
+        * iniziale:   82.9 μs
+        * modificata: 80.2 μs
 
 
 ![Lavoro di pointInPolygonClassification](https://github.com/MarcoCap13/LAR-SPLITTING-2D-5.b-/blob/main/docs/plots/images/Schema_pointInPolygon.png?raw=true)
