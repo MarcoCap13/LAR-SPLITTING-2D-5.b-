@@ -1,6 +1,4 @@
-# Relazione Finale: LAR Splitting 2D
-
-_Studenti: Caponi Marco, Ceneda Gianluca_
+% Studio Definitivo Progetto LAR Splitting 2D -- CPD22 % Gruppo: 5.b -- Caponi Marco 508773, Ceneda Gianluca 488257 % \today
 
 Prime analisi, test e possibili ottimizzazioni sul progetto LAR SPLITTING 2D con l’utilizzo della seguente repository:
 
@@ -8,6 +6,7 @@ Prime analisi, test e possibili ottimizzazioni sul progetto LAR SPLITTING 2D con
 
     * https://github.com/cvdlab/LinearAlgebraicRepresentation.jl/blob/master/src/refactoring.jl
 
+\tableofcontents
 
 ## Obiettivi:
 
@@ -24,7 +23,8 @@ Lo scopo del nostro progetto è stato quello di studiare e dove possibile miglio
 Per far ciò ci siamo mossi creando nuove funzioni per alleggerire il codice, effettuando refactoring e applicando delle macro per poter gestire il tutto.
 
 Per vedere le differenze di prestazioni tra una versione e un'altra abbiamo usato due computer con caratteristiche hardware diverse e per alcune funzioni abbiamo utilizzato la workstation **DGX-1** messa a disposizione dal dipartimento di  _matematica e fisica di roma tre_. le differenze notate tra il computer meno performante e quello più performante sono state notevoli.
-Per quanto riguarda la parte precedente del codice, è presente una descrizione accurata dei vari dati acquisiti attraverso i nostri calcolatori e descritti nella relazione precedente, visitabile all'indirizzo qui di seguito: https://github.com/MarcoCap13/LAR-SPLITTING-2D-5.b-/blob/main/relazioni/relazione02.md
+Per quanto riguarda la parte precedente del codice, è presente una descrizione accurata dei vari dati acquisiti attraverso i nostri calcolatori e descritti nella relazione precedente, visitabile all'indirizzo qui di seguito:
+\newline https://github.com/MarcoCap13/LAR-SPLITTING-2D-5.b-/blob/main/relazioni/relazione02.md
 
 ## Metodi di parallelizzione usati
 
@@ -61,15 +61,15 @@ Lo studio preliminare del progetto è iniziato dalla comprensione del codice per
  Parallelizzando il codice e creando un funzione di supporto denominata _removeIntersection_ per poter alleggerire il codice stesso, abbiamo raggiunto i seguenti risultati con un notevole miglioramento.
     * Tipo: instabile
     * Velocità di calcolo: 
-        * iniziale: 116 μs 
-        * modificata (con workstation DGX-1): 74.8 μs
+        * iniziale: 116 $\mu$s 
+        * modificata (con workstation DGX-1): 74.8 $\mu$s
  
  2) **boundingBox**: attraverso l'utilizzo della funzione denominata _@code_warntype_, è risultata un'instabilità in questo metodo. L'instabilità è dovuta unicamente alla funzione _mapslices_.
  Per ovviare a tale problematica abbiamo richiamato la funzione _hcat_ che concatena due array lungo due dimensioni rendendo boundingbox _type stable_ aumentando notevolmente le prestazioni. (per verificarlo abbiamo richiamato _@benchmark_ e comparato i risultati)
     * Tipo: instabile
     * Velocità di calcolo: 
-        * iniziale:  9.38 μs 
-        * modificata (con workstation DGX-1): 8.21 μs
+        * iniziale:  9.38 $\mu$s 
+        * modificata (con workstation DGX-1): 8.21 $\mu$s
 
 Altre sotto-funzioni **type stable** invece sono state studiate per comprendere il funzionamento del codice e analizzare i tempi di esecuzione:
 
@@ -79,15 +79,15 @@ Altre sotto-funzioni **type stable** invece sono state studiate per comprendere 
 
     * Tipo: stabile
     * Velocità di calcolo: 
-        * iniziale:   8.936 μs 
-        * modificata (con workstation DGX-1): 4.46 μs
+        * iniziale:   8.936 $\mu$s 
+        * modificata (con workstation DGX-1): 4.46 $\mu$s
 
  4) **coordintervals**:Attraverso la macro _@code_warntype_ è stata individuata la stabilità di quest'ultima.
  La funzione è risultata molto semplice e qualsiasi intervento svolto, non ha portato a grossi miglioramenti. Abbiamo utilizzato la macro _@inbounds_ ma non ha portato a notevoli stravolgimenti.
     * Tipo: stabile
     * Velocità di calcolo: 
         * iniziale:   958.143 ns
-        * modificata: 1.029 μs  
+        * modificata: 1.029 $\mu$s  
 
  5) **fragmentlines**:
 Abbiamo convertito alcune list comprehension in cicli del tipo for i=1:n .. in modo da poter utilizzare la macro _@inbounds_ per disabilitare il boundchecking del compilatore.
@@ -97,36 +97,37 @@ Abbiamo convertito alcune list comprehension in cicli del tipo for i=1:n .. in m
  Utilizzando la workstation _DGX-1_ non abbiamo riscontrato migliorameti importanti.
     * Tipo: stabile
     * Velocità di calcolo: 
-        * iniziale:   196.813 μs
-        * modificata: 197.939 μs 
+        * iniziale:   196.813 $\mu$s
+        * modificata: 197.939 $\mu$s 
 
  6) **linefragment**:
  Per quanto riguarda quest'ultima funzione, sono stati riscontrati notevoli miglioramenti a livello di prestazioni utilizzando la macro _@threads_
     * Tipo: stabile
     * Velocità di calcolo: 
-        * iniziale:   66.414 μs
-        * modificata: 33.001 μs 
+        * iniziale:   66.414 $\mu$s
+        * modificata: 33.001 $\mu$s 
 
 
  7) **congruence**:funzione che prende in ingresso un modello di Lar, restituendo una funzione di base denominata hcat che concatena due array lungo due dimensioni. Le macro utilizzate sono _@threads_ e _@inbounds_. Si nota un certo miglioramento se utilizziamo dei _filter_ per i dati di EV
     * Tipo: stabile
     * Velocità di calcolo: 
-        * iniziale:   36.8 μs
-        * modificata (workstation DGX-1): 19.6 μs 
+        * iniziale:   36.8 $\mu$s
+        * modificata (workstation DGX-1): 19.6 $\mu$s 
 
 
  8) **pointInPolygonClassification**: funzione di notevole importanza nel nostro progetto. In questo caso abbiamo scomposto i vari else/if in tante _mono-task_ per poter alleggerire il codice.
  Attraverso l'utilizzo della macro _@async_ abbiamo riscontrato un leggero  miglioramento rispetto alla funzione iniziale. 
  * Tipo: stabile
     * Velocità di calcolo: 
-        * iniziale:   82.6 μs
-        * modificata: 81.1 μs 
+        * iniziale:   82.6 $\mu$s
+        * modificata: 81.1 $\mu$s 
 
-#
+
 ## Funzionamento dello splitting
 
  Nella figura sottostante vedremo come lavora _pointInPolygon_ e il funzionamento dello splitting, denotando tutti quei segmenti che intersecano le facce del poligono preso in esame nel piano z=0. Nello specifico nel punto (a) vediamo i singoli segmenti (o linee) che intersecano il poligono; Nel sezione (b) vengono illustrati tutti quei punti che sono situati esternamente, internamente o sul bordo della faccia del poligono e nel punto (c) vengono cancellati tutti quei segmenti che vanno verso l'esterno della faccia del poligono mentre per finire vediamo nel punto (d) il risultato finale dello _splitting_.
 
+\newpage
 
 ![Lavoro di pointInPolygonClassification](https://github.com/MarcoCap13/LAR-SPLITTING-2D-5.b-/blob/main/docs/plots/images/Schema_pointInPolygon.png?raw=true) 
 
@@ -142,7 +143,7 @@ Riportiamo un esempio di splitting effettuato durante lo studio definitivo del p
 
 Nella **prima figura** (di sinistra) vediamo le intersezioni del bounding-box i-esimo con i restanti boundingbox e nella **seconda figura** vediamo la generazione dei punti dell'intersezioni tra le varie parti.
 
- ## Funzioni aggiuntive create
+## Funzioni aggiuntive create
  
  In questa sezione verranno illustrate tutte le funzioni secondarie da noi utilizzate create per migliorare, alleggerire e semplificare gran parte del codice.
 
@@ -167,9 +168,10 @@ inizialmente si sono eseguiti i test pre-esistenti per verificare il corretto fu
 Per quanto rigurdano i test delle funzioni principali da noi studiate, abbiamo svolto con successo i test sulle funzioni iniziali ricevendo i risultati aspettati.
 Solo successivamente (con un po' di difficoltà) abbiamo svolto i test sulle funzioni da noi modificate arrivando alla completa correttezza di quest'ultimi.
 nello specifico si possono revisionare i vari test nei vari _notebook_  aggiornati, seguendo il link qui riportato:
+\newline
 https://github.com/MarcoCap13/LAR-SPLITTING-2D-5.b-/tree/main/notebook
 
-#
+
 
 ## Considerazioni finali sulla parallelizzazione
 
