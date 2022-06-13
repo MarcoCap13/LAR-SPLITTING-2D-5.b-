@@ -135,7 +135,7 @@ Abbiamo convertito alcune list comprehension in cicli del tipo for i=1:n .. in m
 
 
 #
-### Esempio dello splitting
+## Esempio dello splitting
 Riportiamo un esempio di splitting effettuato durante lo studio definitivo del progetto attraverso due screenshot fondamentali:
 
 ![Lavoro di splitting (1)](https://github.com/MarcoCap13/LAR-SPLITTING-2D-5.b-/blob/main/examples/2d/image/splitting_figura1.png?raw=true=150x) ![Lavoro di splitting (2)](https://github.com/MarcoCap13/LAR-SPLITTING-2D-5.b-/blob/main/examples/2d/image/splitting_figura2.png?raw=true=150x)
