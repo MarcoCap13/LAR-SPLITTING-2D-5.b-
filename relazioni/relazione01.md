@@ -48,13 +48,3 @@ Riassumendo, in questa sezione affronteremo lo studio preliminare delle funzioni
 * **Congruence:** funzione che prende in ingresso un modello di Lar, restituendo una funzione di base denominata _hcat_ che concatena due array lungo due dimensioni.
 
 
-## Analisi input e output delle funzioni della classe **Fragface:**
-
-![Grafo delle dipendenze della classe Fragface](https://github.com/MarcoCap13/LAR-SPLITTING-2D-5.b-/blob/main/docs/plots/images/grafoFragface.png?raw=true)
-
-* **facemapping:** funzione che calcola la matrice denominata _mapping_ per trasformare la variabile ‘sigma’ e le facce da _sp_idx_[sigma] a z=0. La funzione restituisce una matrice denominata _mapping_.
-* **sigmaModel:** funzione che lavora in parallelo con _facemapping_ con la differenza che restituisce una serie di valori mappati lungo il piano z=0.
-* **sigma_interect:** è una funzione che ci permette di intersecare il piano sigma z= 0 con i bordi usando la trasformata denominata ‘_bigpi_’. Questa funzione restituisce la lunghezza della variabile _sigma_lines_ e l’intersezione delle linee memorizzate nella variabile _linestore_.
-* **Computeparams:** funzione che prende in ingresso _linestore_ e _linenum_ precedentemente calcolate dalla funzione _sigma_intersect_ e restituisce un array con tutte le coppie intersecate.
-* **Fragface:** funzione che prende in ingresso dei parametri che permettono di modificare le matrici calcolate dalle precedenti funzioni restituendo variabili inerenti alla funzione LAR.
-
