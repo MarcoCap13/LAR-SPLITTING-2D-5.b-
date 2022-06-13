@@ -134,7 +134,7 @@ Abbiamo convertito alcune list comprehension in cicli del tipo for i=1:n .. in m
 
 
 
-#
+
 ## Esempio dello splitting
 Riportiamo un esempio di splitting effettuato durante lo studio definitivo del progetto attraverso due screenshot fondamentali:
 
