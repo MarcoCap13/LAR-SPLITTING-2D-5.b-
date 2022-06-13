@@ -130,11 +130,15 @@ Abbiamo convertito alcune list comprehension in cicli del tipo for i=1:n .. in m
  Nella figura sottostante vedremo come lavora _pointInPolygon_ e il funzionamento dello splitting, denotando tutti quei segmenti che intersecano le facce del poligono preso in esame nel piano z=0. Nello specifico nel punto (a) vediamo i singoli segmenti (o linee) che intersecano il poligono; Nel sezione (b) vengono illustrati tutti quei punti che sono situati esternamente, internamente o sul bordo della faccia del poligono e nel punto (c) vengono cancellati tutti quei segmenti che vanno verso l'esterno della faccia del poligono mentre per finire vediamo nel punto (d) il risultato finale dello _splitting_.
 
 
-![Lavoro di pointInPolygonClassification](https://github.com/MarcoCap13/LAR-SPLITTING-2D-5.b-/blob/main/docs/plots/images/Schema_pointInPolygon.png?raw=true)
+![Lavoro di pointInPolygonClassification](https://github.com/MarcoCap13/LAR-SPLITTING-2D-5.b-/blob/main/docs/plots/images/Schema_pointInPolygon.png?raw=true) 
+
+
+
+
 
 #
 ### Esempio dello splitting
-![Lavoro di pointInPolygonClassification](https://github.com/MarcoCap13/LAR-SPLITTING-2D-5.b-/blob/main/examples/2d/image/splitting_figura1.png?raw=true=150x)
+![Lavoro di splitting (1)](https://github.com/MarcoCap13/LAR-SPLITTING-2D-5.b-/blob/main/examples/2d/image/splitting_figura1.png?raw=true=150x) ![Lavoro di splitting (2)](https://github.com/MarcoCap13/LAR-SPLITTING-2D-5.b-/blob/main/examples/2d/image/splitting_figura2.png?raw=true=150x)
  ## Funzioni aggiuntive create
  
  In questa sezione verranno illustrate tutte le funzioni secondarie da noi utilizzate create per migliorare, alleggerire e semplificare gran parte del codice.
