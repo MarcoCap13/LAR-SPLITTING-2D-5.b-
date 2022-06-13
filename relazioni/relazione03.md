@@ -8,8 +8,6 @@ Prime analisi, test e possibili ottimizzazioni sul progetto LAR SPLITTING 2D con
 
     * https://github.com/cvdlab/LinearAlgebraicRepresentation.jl/blob/master/src/refactoring.jl
 
-    * https://github.com/cvdlab/Lar.jl/blob/master/src/fragface.jl 
-
 
 ## Obiettivi:
 
