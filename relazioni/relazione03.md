@@ -119,17 +119,22 @@ Abbiamo convertito alcune list comprehension in cicli del tipo for i=1:n .. in m
 
  8) **pointInPolygonClassification**: funzione di notevole importanza nel nostro progetto. In questo caso abbiamo scomposto i vari else/if in tante _mono-task_ per poter alleggerire il codice.
  Attraverso l'utilizzo della macro _@async_ abbiamo riscontrato un leggero  miglioramento rispetto alla funzione iniziale. 
-
- Nella figura sottostante vedremo come lavora _pointInPolygon_, denotando tutti quei segmenti che intersecano le facce del poligono preso in esame. Nello specifico nel punto (a) vediamo i singoli segmenti (o linee) che intersecano quest'ultime; Nel punto (b) vengono illustrati tutti quei punti che sono situati esternamente, internamente o sul bordo della faccia del poligono, nel punto (c) vengono cancellati tutti quei segmenti che vanno verso l'esterno della faccia del poligono e per finire vediamo nel punto (d) il risultato finale attraverso il **TGW** in 2D.
-    * Tipo: stabile
+ * Tipo: stabile
     * Velocità di calcolo: 
-        * iniziale:   82.9 μs
-        * modificata: 80.2 μs
+        * iniziale:   82.6 μs
+        * modificata: 81.1 μs 
+
+#
+## Funzionamento dello splitting
+
+ Nella figura sottostante vedremo come lavora _pointInPolygon_ e il funzionamento dello splitting, denotando tutti quei segmenti che intersecano le facce del poligono preso in esame nel piano z=0. Nello specifico nel punto (a) vediamo i singoli segmenti (o linee) che intersecano il poligono; Nel sezione (b) vengono illustrati tutti quei punti che sono situati esternamente, internamente o sul bordo della faccia del poligono e nel punto (c) vengono cancellati tutti quei segmenti che vanno verso l'esterno della faccia del poligono mentre per finire vediamo nel punto (d) il risultato finale dello _splitting_.
 
 
 ![Lavoro di pointInPolygonClassification](https://github.com/MarcoCap13/LAR-SPLITTING-2D-5.b-/blob/main/docs/plots/images/Schema_pointInPolygon.png?raw=true)
 
 #
+### Esempio dello splitting
+ 
 
  ## Funzioni aggiuntive create
  
@@ -145,7 +150,7 @@ Abbiamo convertito alcune list comprehension in cicli del tipo for i=1:n .. in m
 
 ## Test delle funzioni principali e aggiuntive
 
-inizialmente si è sono eseguiti i test pre-esistenti per verificare il corretto funzionamento delle funzioni principali anche dopo aver effettuato lo studio di parallelizzazione con le macro dei singoli task. Dopo aver verificato il successo di questi, si è proceduto alla realizzazione di nuovi test:
+inizialmente si sono eseguiti i test pre-esistenti per verificare il corretto funzionamento delle funzioni principali anche dopo aver effettuato lo studio di parallelizzazione con le macro dei singoli task. Dopo aver verificato il successo di questi, si è proceduto alla realizzazione di nuovi test:
 
 1) **@testset "createIntervalTree test"**: creato un _OrderedDict_ e un _intervaltrees_ vogliamo testare che i dati siano stati disposti nel giusto ordine nella struttura dati. Per farlo estraiamo i singoli valori e li confrontiamo con i valori che ci aspettiamo di trovare nelle singole locazioni.
 
@@ -153,10 +158,12 @@ inizialmente si è sono eseguiti i test pre-esistenti per verificare il corretto
 
 3) **@testset "addIntersection test"**: avendo isolato il task della funzione _boxcovering_ che aggiunge in 'covers' in i-esima posizione tutti i bounding box che intersecano l'i-esimo bounding box, vogliamo assicurarci che funzioni nel modo corretto. Per farlo creiamo un boundingbox di test e un OrderedDict con cui creare un _intervalTree_. A questo punto diamo queste variabili come input alla nostra funzione e confrontiamo il risultato ottenuto con quello atteso.
 
-Per quanto rigurdano i test delle funzioni principali da noi studiate, abbiamo svolto con successo i test sulle funzioni iniziali dando i risultati aspettati.
+Per quanto rigurdano i test delle funzioni principali da noi studiate, abbiamo svolto con successo i test sulle funzioni iniziali ricevendo i risultati aspettati.
 Solo successivamente (con un po' di difficoltà) abbiamo svolto i test sulle funzioni da noi modificate arrivando alla completa correttezza di quest'ultimi.
-nello specifico si possono revisionare i vari test nei vari _notebook02_  aggiornati, seguendo il link qui riportato:
+nello specifico si possono revisionare i vari test nei vari _notebook_  aggiornati, seguendo il link qui riportato:
 https://github.com/MarcoCap13/LAR-SPLITTING-2D-5.b-/tree/main/notebook
+
+#
 
 ## PARALLELIZZAZIONE
 
