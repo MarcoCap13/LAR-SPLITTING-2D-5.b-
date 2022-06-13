@@ -183,7 +183,6 @@ Il numero di thread da assegnare ai vari processi julia va stabilito prima dell'
 Nel grafico sottostante abbiamo testato le prestazioni di _spaceindex()_, una delle funzioni più importanti per lo _splitting_.
 Nello specifico abbiamo visto cosa accadeva al variare del numero di thread, in particolare, quando si hanno a disposizione uno, quattro o otto thread (il massimo ottenibile dalla worksation DGX). Analizzando i tempi, si evince che il numero di thread deve essere scelto in base alla complessità del modello preso in esame. Infatti, utilizzando modelli semplici, un numero elevato di thread porta ad un peggioramento delle prestazioni, mentre all'aumentare della complessità si ha un miglioramento.
 
-![analisi die thread)](https://github.com/MarcoCap13/LAR-SPLITTING-2D-5.b-/blob/main/docs/plots/images/analisi_thread.png?raw=true)
 
 
 ## Grafo delle dipendenze aggiornato
