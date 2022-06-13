@@ -55,7 +55,7 @@ Per quanto riguarda l'ottimizzazione e la parallelizzazione delle funzioni, sono
 
 Per vedere nel dettaglio i nuovi dati ed i benchmark riporto il link diretto: 
     
-* https://github.com/MarcoCap13/LAR-SPLITTING-2D-5.b-/tree/main/docs/benchmark/benchmark_DGX-1
+* https://github.com/MarcoCap13/LAR-SPLITTING-2D-5.b-/tree/main/docs/benchmark
 
 Lo studio preliminare del progetto è iniziato dalla comprensione del codice per capire come funzionasse lo _splitting 2D_ per poi essere in grado di manipolare le strutture ad esso associate. Dopo di che si è passati allo studio delle funzioni più importanti come _spaceindex_ e _pointInPolygonClassification_ attraverso varie simulazioni delle stesse evidenziando così un'instabilità di tipo su alcune sue variabili grazie all'uso della macro _@code_warntype_ citata poco fa, oltre ad una velocita di esecuzione non proprio ottimale. Per risolvere questi problemi, si sono dovute studiare tutte le singole sotto-funzioni in particolare quelle che sollevavano l'**instabilità** sul tipo:
 
