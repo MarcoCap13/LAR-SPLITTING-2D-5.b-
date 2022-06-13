@@ -134,8 +134,7 @@ Abbiamo convertito alcune list comprehension in cicli del tipo for i=1:n .. in m
 
 #
 ### Esempio dello splitting
- 
-
+![Lavoro di pointInPolygonClassification](https://github.com/MarcoCap13/LAR-SPLITTING-2D-5.b-/blob/main/examples/2d/image/splitting_figura1.png?raw=true=150x)
  ## Funzioni aggiuntive create
  
  In questa sezione verranno illustrate tutte le funzioni secondarie da noi utilizzate create per migliorare, alleggerire e semplificare gran parte del codice.
