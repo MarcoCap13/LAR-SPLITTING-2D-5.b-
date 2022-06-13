@@ -18,14 +18,14 @@ Prime analisi, test e possibili ottimizzazioni sul progetto LAR SPLITTING 2D con
 
 ## Analisi Preliminare
 
-Lo studio del nostro progetto si basa sull’ottimizzazione delle funzioni principali della classe **refactoring** e **fragface** tra cui: _spaceindex_, _pointInPolygonClassification_ e _fragmentLines_.
+Lo studio del nostro progetto si basa sull’ottimizzazione delle funzioni principali della classe **refactoring** tra cui: _spaceindex_, _pointInPolygonClassification_ e _fragmentLines_.
 Nello specifico, ci occupiamo della generazione di una proiezione 2D del piano euclideo di ciascuna faccia, costituita da un insieme di forme solide 3D o da un insieme di primitive 1D (es: linee, poligoni, cerchi etc.).
 * **Input:** In input abbiamo o una struttura _LAR_, da trasformare in un insieme di poligoni sia 2D che 1D oppure un array formato dagli stessi elementi facente parte dello stesso sistema di coordinate.
 * **Output:** In output invece abbiamo una collezione di elementi 2D inserite in due matrici diagonali.
   
-Riassumendo, in questa sezione affronteremo lo studio preliminare delle funzioni principali della classe _refactoring_ e _fragface_:
+Riassumendo, in questa sezione affronteremo lo studio preliminare delle funzioni principali della classe _refactoring_:
 
-## Analisi input e output delle funzioni della classe **Refactoring**:
+## Analisi input e output delle funzioni:
 
 ![Grafo delle dipendenze della classe Refactoring](https://github.com/MarcoCap13/LAR-SPLITTING-2D-5.b-/blob/main/docs/plots/images/grafoRefactoring.png?raw=true)
 
