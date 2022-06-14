@@ -192,6 +192,6 @@ I nodi color celeste sono le funzioni di supporto, i nodi colorati di rosso sono
 Nello specifico il nodo _Utility_function_PointInPolygon_1-15_  racchiude tutte le 15 funzioni create per il supporto a PointInPolygonclassification.
 
 
- ![Grafo delle dipendenze della classe Refactoring (Aggiornato)](https://github.com/MarcoCap13/LAR-SPLITTING-2D-5.b-/blob/main/docs/plots/images/grafoRefactoring_V2.1.png?raw=true)
+ ![Grafo delle dipendenze della classe Refactoring (Aggiornato)](https://github.com/MarcoCap13/LAR-SPLITTING-2D-5.b-/blob/main/docs/plots/images/grafoRefactoring_V2.png?raw=true)
 
 
