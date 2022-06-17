@@ -3,11 +3,11 @@ module LARSplitting2D
 	using NearestNeighbors
 	using DataStructures
 	using IntervalTrees
-	#using Triangle
 	using Triangulate
 	using SparseArrays
 	using LinearAlgebra
 	using Distributed
+	using LinearAlgebraicRepresentation
 	Lar = LinearAlgebraicRepresentation
 	export Verbose
 
