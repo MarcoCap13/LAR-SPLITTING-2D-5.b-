@@ -1,28 +1,26 @@
-push!(LOAD_PATH,"../src/")
+using Pkg
+pkg"activate .."
 
-using Documenter, LinearAlgebraicRepresentation
-Lar = LinearAlgebraicRepresentation
-
+using Documenter, LARSplitting2D, DocumenterMarkdown
+using DocumenterTools: Themes
 
 makedocs(
 	format = Documenter.HTML(
 		prettyurls = get(ENV, "CI", nothing) == "true"
 	),
-	sitename = "LinearAlgebraicRepresentation.jl",
+	sitename = "LARSplitting2D.jl",
 	assets = ["assets/lar.css", "assets/logo.png"],
 	pages = [
 		"Home" => "index.md",
-		"L.A.R. Intro" => "lar.md",
-		"Interface" => "interface.md",
-		"Arrangement" => "arrangement.md",
-		"Parametric primitives" => [
-			"Mapper" => "mapper.md",
-			"Assemblies" => "struct.md"
+		"Documentazione" => [
+            "Studio Preliminare" => "relazione_preliminare.md",
+            "Studio Esecutivo" => "relazione_esecutiva.md",
+            "Studio Definitivo" => "relazione_definitiva.md",
+			],
 		],
-		"Grid generation" => [
-			"Cuboidal grids" => "largrid.md",
-			"Simplicial grids" => "simplexn.md"
-		],
-		"Domain integration" => "integr.md",
-	]
+		modules=[LARSplitting2D]
+)
+
+deploydocs(
+    repo="https://github.com/MarcoCap13/LARSplitting2D.git" 
 )
