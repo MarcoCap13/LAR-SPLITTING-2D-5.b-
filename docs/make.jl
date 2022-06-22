@@ -23,3 +23,5 @@ makedocs(
 deploydocs(
     repo="https://github.com/MarcoCap13/LARSplitting2D.git" 
 )
+
+
