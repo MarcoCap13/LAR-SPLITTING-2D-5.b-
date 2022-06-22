@@ -13,3 +13,6 @@ Il progetto contiene grafici, codice e notebook per il progetto LARSPLITTING 2D.
 * Link dei notebooks: [https://github.com/MarcoCap13/LAR-SPLITTING-2D-5.b-/tree/main/notebook](https://github.com/MarcoCap13/LAR-SPLITTING-2D-5.b-/tree/main/notebook)
 
 * Link della documentazione: [https://github.com/MarcoCap13/LARSplitting2D/tree/gh-pages](https://github.com/MarcoCap13/LARSplitting2D/tree/gh-pages)
+
+> **Note**
+> Le foto dei componenti del gruppo sono reperibili nei profili Github di ciascuno studente.
