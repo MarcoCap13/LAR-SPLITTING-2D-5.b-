@@ -1,4 +1,4 @@
-# LAR-SPLITTING-2D gruppo: 5.b
+# LARSPLITTING 2D  gruppo:5.b
 
 | Nome | Matricola | E-mail | Profilo GitHub |
 |:---|:---|:---|:---|
