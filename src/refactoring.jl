@@ -12,9 +12,19 @@ using Base.Threads
 #---------------------------------------------------------------------
 
 """
+    crossingTest(new::Int, old::Int, count::T, status::Int)
+
+# Explanation
 
 Half-line crossing test. Utility function for `pointInPolygonClassification` function.
 Update the `count` depending of the actual crossing of the tile half-line.
+
+# Arguments
+
+- `new::Int`
+- `old::Int`
+- `count::T`
+- `status::Int`
 """
 function crossingTest(new::Int, old::Int, count::T, status::Int)::Number where T <: Real
     if status == 0
@@ -34,6 +44,8 @@ end
 
 """
 	setTile(box)(point)
+
+# Explanation
 
 Set the `tileCode` of the 2D bbox `[b1,b2,b3,b4]:=[ymax,ymin,xmax,xmin]:= x,x,y,y`
 including the 2D `point` of `x,y` coordinates.
@@ -131,6 +143,8 @@ end
 
 """
 	pointInPolygonClassification(V,EV)(pnt)
+
+# Explanation
 
 Point in polygon classification.
 
@@ -262,6 +276,10 @@ end
 #   return minimum, maximum
 #end
 """
+    boundingbox(vertices::Lar.Points)
+
+# Explanation
+
 The boundingbox function is used to create the bounding box of a cell,
 that is, the smallest measurement box (area, volume, hypervolume) within which all the points are contained.
 """
@@ -280,6 +298,10 @@ function boundingbox(vertices::Lar.Points)
  end
 
 """
+    coordintervals(coord,bboxes)
+
+# Explanation
+
 coordintervals creates an ordered dictionary where the key is the range on a coordinate, and has as its associated value
 the index of the corresponding interval in the boundig box
 """
@@ -297,7 +319,15 @@ function coordintervals(coord,bboxes)
 end
 
 """
+    boxcovering(bboxes, index, tree)
+
+# Explanation
+
 boxcovering calculates which bounding boxes intersect each other.
+
+# Returns
+
+- `covers`
 """
 function boxcovering(bboxes, index, tree)
     covers = [[zero(eltype(Int64))] for k=1:length(bboxes)]		#zero(eltype(Int64)) serve per rendere covers type stable
@@ -312,6 +342,8 @@ end
 
 """
 	spaceindex(model::Lar.LAR)::Array{Array{Int,1},1}
+
+# Explanation
 
 Generation of *space indexes* for all ``(d-1)``-dim cell members of `model`.
 
@@ -393,6 +425,8 @@ end
 """
 	intersection(line1,line2)
 
+# Explanation
+
 Intersect two line segments in 2D, by computing the two line parameters of the intersection point.
 
 The line segments intersect if both return parameters `α,β` are contained in the interval `[0,1]`.
@@ -441,6 +475,8 @@ end
 
 """
 	linefragments(V,EV,Sigma)
+
+# Explanation
 
 Compute the sequences of ordered parameters fragmenting each input lines.
 
@@ -506,6 +542,8 @@ println(nthreads())
 """
 	fragmentlines(model::Lar.LAR)::Lar.LAR
 
+# Explanation
+
 Pairwise *intersection* of 2D *line segments*.
 
 # Example 2D
@@ -557,6 +595,10 @@ function fragmentlines(model)
 end
 
 """
+    fraglines(sx::Float64=1.2,sy::Float64=1.2,sz::Float64=1.2)
+
+# Explanation
+
 It takes as input three float variables representing the Cartesian plane.
 Returns a pattern that passes input to the fragmentlines function.
 """
@@ -589,6 +631,9 @@ end
 
 """
 	congruence(model::Lar.LAR)::Lar.LAR
+
+# Explanation
+    
 Graded bases of equivalence classes Ck (Uk ), with Uk = Xk /Rk for 0 ≤ k ≤ 2.
 """
 function congruence(model)
@@ -811,7 +856,15 @@ end
 # FUNZIONI DI SUPPORTO
 
 """
+    removeIntersection(covers::Array{Array{Int64,1},1})
+
+# Explanation
+
 Eliminate the intersections contained in 'covers' that boundingboxes have with themselves
+
+# Arguments
+
+- `covers::Array{Array{Int64,1},1}`
 """
 function removeIntersection(covers::Array{Array{Int64,1},1})
     @threads for k=1:length(covers)
@@ -820,8 +873,17 @@ function removeIntersection(covers::Array{Array{Int64,1},1})
 end
 
 """
+    createIntervalTree(boxdict::AbstractDict{Array{Float64,1},Array{Int64,1}})
+
+# Explanation
+
 given an ordered dictionary it creates an intervalTrees that is a data structure that contains intervals
 and which allows you to efficiently find all the intervals that overlap a certain interval or point.
+
+# Arguments
+
+- `boxdict::AbstractDict{Array{Float64,1}}`
+- `boxdict::Array{Int64,1}`
 """
 function createIntervalTree(boxdict::AbstractDict{Array{Float64,1},Array{Int64,1}})
     tree = IntervalTrees.IntervalMap{Float64,Array}()
@@ -832,8 +894,18 @@ function createIntervalTree(boxdict::AbstractDict{Array{Float64,1},Array{Int64,1
 end
 
 """
+    addIntersection(covers::Array{Array{Int64,1},1}, i::Int64, iterator)
+    
+# Explanation
+
 addIntersection adds all bounding boxes in 'covers' in i-th position
 that intersect the i-th bounding box
+
+# Arguments
+
+- `covers::Array{Array{Int64,1},1}`
+- `i::Int64`
+- `iterator`
 """
 function addIntersection(covers::Array{Array{Int64,1},1}, i::Int64, iterator)
     splice!(covers[i],1)		#splice serve a togliere gli zeri iniziali all'interno di covers
