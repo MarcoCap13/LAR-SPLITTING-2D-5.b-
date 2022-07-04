@@ -65,19 +65,6 @@ function setTile(box)
 end
 
 
-
-"""
-	pointInPolygonClassification(V,EV)(pnt)
-
-Point in polygon classification.
-
-# Example
-
-```julia
-result = []
-classify = pointInPolygonClassification(V,EV)
-```
-"""
 function edgecode1(c_int) #c_edge == 1
     if c_int == 0 return "p_on"
     elseif c_int == 4 crossingTest(1,2,status, counter) end 
@@ -142,6 +129,18 @@ function edgecode15(x1,x2,y1,y2,x,y)
     elseif (x_int == x) return "p_on" end
 end
 
+"""
+	pointInPolygonClassification(V,EV)(pnt)
+
+Point in polygon classification.
+
+# Example
+
+```julia
+result = []
+classify = pointInPolygonClassification(V,EV)
+```
+"""
 function pointInPolygonClassification(V,EV) 
     function pointInPolygonClassification0(pnt)
         x,y = pnt
@@ -262,6 +261,10 @@ end
 #   maximum = mapslices(x->max(x...), vertices, dims=2)
 #   return minimum, maximum
 #end
+"""
+The boundingbox function is used to create the bounding box of a cell,
+that is, the smallest measurement box (area, volume, hypervolume) within which all the points are contained.
+"""
 function boundingbox(vertices::Lar.Points)
     firstDim = vertices[1,:]
     secondDim = vertices[2,:]
@@ -276,6 +279,10 @@ function boundingbox(vertices::Lar.Points)
     return fetch(minimum),fetch(maximum)
  end
 
+"""
+coordintervals creates an ordered dictionary where the key is the range on a coordinate, and has as its associated value
+the index of the corresponding interval in the boundig box
+"""
 function coordintervals(coord,bboxes)
 	boxdict = OrderedDict{Array{Float64,1},Array{Int64,1}}()
 	for (h,box) in enumerate(bboxes)
@@ -289,6 +296,9 @@ function coordintervals(coord,bboxes)
 	return boxdict
 end
 
+"""
+boxcovering calculates which bounding boxes intersect each other.
+"""
 function boxcovering(bboxes, index, tree)
     covers = [[zero(eltype(Int64))] for k=1:length(bboxes)]		#zero(eltype(Int64)) serve per rendere covers type stable
     @threads for (i,boundingbox) in collect(enumerate(bboxes))
@@ -546,7 +556,10 @@ function fragmentlines(model)
     return V,EV
 end
 
-
+"""
+It takes as input three float variables representing the Cartesian plane.
+Returns a pattern that passes input to the fragmentlines function.
+"""
 function fraglines(sx::Float64=1.2,sy::Float64=1.2,sz::Float64=1.2)
 	function fraglines0(model)
 		V,EV = Lar.fragmentlines(model)
@@ -577,12 +590,6 @@ end
 """
 	congruence(model::Lar.LAR)::Lar.LAR
 Graded bases of equivalence classes Ck (Uk ), with Uk = Xk /Rk for 0 ≤ k ≤ 2.
-
-# Example
-
-```julia
-julia>
-```
 """
 function congruence(model)
 	W,EW = model
@@ -803,12 +810,19 @@ end
 
 # FUNZIONI DI SUPPORTO
 
+"""
+Eliminate the intersections contained in 'covers' that boundingboxes have with themselves
+"""
 function removeIntersection(covers::Array{Array{Int64,1},1})
     @threads for k=1:length(covers)
         covers[k] = setdiff(covers[k],[k])	#toglie le intersezioni con se stesso 
     end
 end
 
+"""
+given an ordered dictionary it creates an intervalTrees that is a data structure that contains intervals
+and which allows you to efficiently find all the intervals that overlap a certain interval or point.
+"""
 function createIntervalTree(boxdict::AbstractDict{Array{Float64,1},Array{Int64,1}})
     tree = IntervalTrees.IntervalMap{Float64,Array}()
     for (key, boxset) in boxdict
@@ -817,6 +831,10 @@ function createIntervalTree(boxdict::AbstractDict{Array{Float64,1},Array{Int64,1
     return tree
 end
 
+"""
+addIntersection adds all bounding boxes in 'covers' in i-th position
+that intersect the i-th bounding box
+"""
 function addIntersection(covers::Array{Array{Int64,1},1}, i::Int64, iterator)
     splice!(covers[i],1)		#splice serve a togliere gli zeri iniziali all'interno di covers
     @threads for x in collect(iterator)

@@ -5,6 +5,9 @@ LARSplitting2D.crossingTest
 LARSplitting2D.setTile
 ```
 ```@docs
+LARSplitting2D.pointInPolygonClassification
+```
+```@docs
 LARSplitting2D.input_collection
 ```
 ```@docs
@@ -33,4 +36,13 @@ LARSplitting2D.fraglines
 ```
 ```@docs
 LARSplitting2D.congruence
+```
+```@docs
+LARSplitting2D.removeIntersection
+```
+```@docs
+LARSplitting2D.createIntervalTree
+```
+```@docs
+LARSplitting2D.addIntersection
 ```
