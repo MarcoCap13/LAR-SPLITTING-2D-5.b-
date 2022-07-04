@@ -16,6 +16,7 @@ makedocs(
             "Studio Esecutivo" => "relazione_esecutiva.md",
             "Studio Definitivo" => "relazione_definitiva.md",
         ],
+        "Docstring" => "docs2d.md",
     ],
     modules=[LARSplitting2D]
 )
