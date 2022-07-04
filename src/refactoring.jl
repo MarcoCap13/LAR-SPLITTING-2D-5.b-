@@ -146,7 +146,8 @@ end
 
 # Explanation
 
-Point in polygon classification.
+function used for the classification of the points of a polygon.
+In particular, it identifies whether a point is located inside, outside or on the edge of a polygon.
 
 # Example
 
