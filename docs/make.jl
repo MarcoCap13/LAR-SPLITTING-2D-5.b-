@@ -11,6 +11,7 @@ makedocs(
     sitename="LARSplitting2D.jl",
     pages=[
         "Home" => "index.md",
+        "Introduzione" => "intro.md",
         "Documentazione" => [
             "Studio Preliminare" => "relazione_preliminare.md",
             "Studio Esecutivo" => "relazione_esecutiva.md",
