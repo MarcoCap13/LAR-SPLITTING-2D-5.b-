@@ -12,6 +12,7 @@ makedocs(
     pages=[
         "Home" => "index.md",
         "Introduzione" => "intro.md",
+        "Grafo delle dipendenze" => "grafo.md"
         "Documentazione" => [
             "Studio Preliminare" => "relazione_preliminare.md",
             "Studio Esecutivo" => "relazione_esecutiva.md",
