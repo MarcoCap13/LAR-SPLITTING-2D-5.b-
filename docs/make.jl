@@ -19,6 +19,7 @@ makedocs(
             "Studio Definitivo" => "relazione_definitiva.md",
         ],
         "Docstring" => "docs2d.md",
+        "Esempi e risultati" => "esempioBool.md",
         "Conclusioni" => "conclusioni.md",
     ],
     modules=[LARSplitting2D]
