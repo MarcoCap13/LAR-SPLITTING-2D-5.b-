@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><title>Esempi e risultati · LARSplitting2D.jl</title><link href="https://fonts.googleapis.com/css?family=Lato|Roboto+Mono" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.0/css/fontawesome.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.0/css/solid.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.0/css/brands.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.css" rel="stylesheet" type="text/css"/><script>documenterBaseURL="."</script><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" data-main="assets/documenter.js"></script><script src="siteinfo.js"></script><script src="../versions.js"></script><link class="docs-theme-link" rel="stylesheet" type="text/css" href="assets/themes/documenter-dark.css" data-theme-name="documenter-dark" data-theme-primary-dark/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="assets/themes/documenter-light.css" data-theme-name="documenter-light" data-theme-primary/><script src="assets/themeswap.js"></script></head><body><div id="documenter"><nav class="docs-sidebar"><div class="docs-package-name"><span class="docs-autofit">LARSplitting2D.jl</span></div><form class="docs-search" action="search.html"><input class="docs-search-query" id="documenter-search-query" name="q" type="text" placeholder="Search docs"/></form><ul class="docs-menu"><li><a class="tocitem" href="index.html">Home</a></li><li><a class="tocitem" href="intro.html">Introduzione</a></li><li><a class="tocitem" href="grafo.html">Grafo delle dipendenze</a></li><li><span class="tocitem">Documentazione</span><ul><li><a class="tocitem" href="relazione_preliminare.html">Studio Preliminare</a></li><li><a class="tocitem" href="relazione_esecutiva.html">Studio Esecutivo</a></li><li><a class="tocitem" href="relazione_definitiva.html">Studio Definitivo</a></li></ul></li><li><a class="tocitem" href="docs2d.html">Docstring</a></li><li class="is-active"><a class="tocitem" href="esempioBool.html">Esempi e risultati</a><ul class="internal"><li><a class="tocitem" href="#Esempio-splitting"><span>Esempio <code>splitting</code></span></a></li></ul></li><li><a class="tocitem" href="conclusioni.html">Conclusioni</a></li></ul><div class="docs-version-selector field has-addons"><div class="control"><span class="docs-label button is-static is-size-7">Version</span></div><div class="docs-selector control is-expanded"><div class="select is-fullwidth is-size-7"><select id="documenter-version-selector"></select></div></div></div></nav><div class="docs-main"><header class="docs-navbar"><nav class="breadcrumb"><ul class="is-hidden-mobile"><li class="is-active"><a href="esempioBool.html">Esempi e risultati</a></li></ul><ul class="is-hidden-tablet"><li class="is-active"><a href="esempioBool.html">Esempi e risultati</a></li></ul></nav><div class="docs-right"><a class="docs-edit-link" href="https://github.com/MarcoCap13/LAR-SPLITTING-2D-5.b-/blob/master/docs/src/esempioBool.md" title="Edit on GitHub"><span class="docs-icon fab"></span><span class="docs-label is-hidden-touch">Edit on GitHub</span></a><a class="docs-settings-button fas fa-cog" id="documenter-settings-button" href="#" title="Settings"></a><a class="docs-sidebar-button fa fa-bars is-hidden-desktop" id="documenter-sidebar-button" href="#"></a></div></header><article class="content" id="documenter-page"><h2 id="Esempio-splitting"><a class="docs-heading-anchor" href="#Esempio-splitting">Esempio <code>splitting</code></a><a id="Esempio-splitting-1"></a><a class="docs-heading-anchor-permalink" href="#Esempio-splitting" title="Permalink"></a></h2><pre><code class="language-julia">using LinearAlgebraicRepresentation
+Lar = LinearAlgebraicRepresentation
+using ViewerGL
+GL = ViewerGL
+
+
+function randlines(n=300, t=0.4)
+	#n = 100 #1000 #1000 #20000
+	#t = 0.4 #0.15 #0.4 #0.15
+	V = zeros(Float64,2,2*n)
+	EV = [zeros(Int64,2) for k=1:n]
+	for k=1:n
+		v1 = rand(Float64,2)
+		v2 = rand(Float64,2)
+		vm = (v1+v2)/2
+		transl = rand(Float64,2)
+		V[:,k] = (v1-vm)*t + transl
+		V[:,n+k] = (v2-vm)*t + transl
+		EV[k] = [k,n+k]
+	end
+
+	V = GL.normalize2(V)
+	model = (V,EV)
+	Sigma = Lar.spaceindex(model)
+
+	model = V,EV;
+	W,EW = Lar.fragmentlines(model);
+	U,EVs = Lar.biconnectedComponent((W,EW::Lar.Cells));
+	EV = convert(Lar.Cells, union(EVs...))
+	V,FVs,EVs = Lar.arrange2D(U,EV)
+end
+
+V,FVs,EVs = randlines()
+
+GL.VIEW(GL.GLExplode(V,FVs,1.2,1.2,1.2,1));
+GL.VIEW(GL.GLExplode(V,FVs,1.2,1.2,1.2,3,1));
+GL.VIEW(GL.GLExplode(V,FVs,1.2,1.2,1.2,99,1));
+GL.VIEW(GL.GLExplode(V,FVs,1.,1.,1.,99,1));
+GL.VIEW(GL.GLExplode(V,EVs,1.2,1.2,1.2,1,1));</code></pre><p>Riportiamo un esempio di <em>splitting</em> effettuato durante lo studio definitivo del progetto attraverso due screenshot fondamentali:</p><p><img src="https://github.com/MarcoCap13/LAR-SPLITTING-2D-5.b-/blob/main/examples/2d/image/splitting_figura1.png?raw=true=150x" alt="Lavoro di splitting (1)"/> <img src="https://github.com/MarcoCap13/LAR-SPLITTING-2D-5.b-/blob/main/examples/2d/image/splitting_figura2.png?raw=true=150x" alt="Lavoro di splitting (2)"/></p><p>Nella <strong>prima figura</strong> (di sinistra) vediamo le intersezioni del bounding-box i-esimo con i restanti boundingbox e nella <strong>seconda figura</strong> vediamo la generazione dei punti dell&#39;intersezioni tra le varie parti.</p></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="docs2d.html">« Docstring</a><a class="docs-footer-nextpage" href="conclusioni.html">Conclusioni »</a><div class="flexbox-break"></div><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> on <span class="colophon-date" title="Wednesday 6 July 2022 10:51">Wednesday 6 July 2022</span>. Using Julia version 1.7.2.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>
